@@ -12,6 +12,8 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TodoFormComponent } from '../form/form.component';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator'; // Added MatPaginator
 import { Todo } from "../../services/model.service"
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 
 @Component({
   selector: 'app-table',
@@ -22,20 +24,25 @@ import { Todo } from "../../services/model.service"
     MatIconModule,
     MatButtonModule,
     MatDialogModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatTooltipModule,
+    MatSortModule
   ],
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css']
 })
-export class TodoTableComponent implements OnDestroy {
+export class TodoTableComponent implements AfterViewInit, OnDestroy {
   public dataSource = new MatTableDataSource<Todo>();
   public displayedColumns: string[] = ['id', 'name', 'status', 'priority', 'actions'];
+  private dataSubscription: Subscription;
 
   @ViewChild(MatPaginator) set pagintor(paginator: MatPaginator) {
     this.dataSource.paginator = paginator;
   }
-
-  private dataSubscription: Subscription;
+  
+  @ViewChild(MatSort) set sort(sort: MatSort) {
+    this.dataSource.sort = sort;
+  }
 
   constructor(
     private todoApplyFilterService: TodoApplyFilterService,
@@ -53,6 +60,10 @@ export class TodoTableComponent implements OnDestroy {
     if (this.dataSubscription) {
       this.dataSubscription.unsubscribe();
     }
+  }
+  ngAfterViewInit(): void {
+      this.dataSource.paginator = this.pagintor;
+      this.dataSource.sort = this.sort;
   }
 
   onDelete(id: number): void {

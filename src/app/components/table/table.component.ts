@@ -31,12 +31,12 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css']
 })
-export class TodoTableComponent implements AfterViewInit, OnDestroy {
+export class TodoTableComponent implements OnDestroy {
   public dataSource = new MatTableDataSource<Todo>();
   public displayedColumns: string[] = ['id', 'name', 'status', 'priority', 'actions'];
   private dataSubscription: Subscription;
 
-  @ViewChild(MatPaginator) set pagintor(paginator: MatPaginator) {
+  @ViewChild(MatPaginator) set paginator(paginator: MatPaginator) {
     this.dataSource.paginator = paginator;
   }
   
@@ -60,10 +60,6 @@ export class TodoTableComponent implements AfterViewInit, OnDestroy {
     if (this.dataSubscription) {
       this.dataSubscription.unsubscribe();
     }
-  }
-  ngAfterViewInit(): void {
-      this.dataSource.paginator = this.pagintor;
-      this.dataSource.sort = this.sort;
   }
 
   onDelete(id: number): void {

@@ -76,7 +76,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   }
 
   openAddTodoDialog() {
-    const dialogRef = new MatDialog().open(TodoFormComponent, {
+    const dialogRef = this.dialog.open(TodoFormComponent, {
       width: '400px',
   });
 

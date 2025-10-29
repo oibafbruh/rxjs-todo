@@ -16,7 +16,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatButtonModule 
+    MatButtonModule,
+    MatDialogModule
   ],
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css'],

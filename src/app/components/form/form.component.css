@@ -1,0 +1,18 @@
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-name {
+    margin-top: 8px;
+}
+
+dialog-content {
+  padding: 32px;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 24px;
+}

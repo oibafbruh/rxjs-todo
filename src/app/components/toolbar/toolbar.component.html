@@ -1,0 +1,40 @@
+<mat-toolbar [formGroup]="filterForm">
+
+  <div class="toolbar-section">
+    <mat-form-field class="search-field" appearance="outline">
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput placeholder="Suche todos..." formControlName="search">
+    </mat-form-field>
+  </div>
+
+  <div class="toolbar-section">
+    <mat-button-toggle-group formControlName="status" aria-label="Todo filters">
+      <mat-button-toggle value="Alle">Alle</mat-button-toggle>
+      <mat-button-toggle value="Wartet">Wartet</mat-button-toggle>
+      <mat-button-toggle value="Aktive">Aktive</mat-button-toggle>
+      <mat-button-toggle value="Abgeschlossen">Abgeschlossen</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+  
+  <div class="toolbar-section">
+    <mat-form-field appearance="outline" class="priority-field">
+      <mat-label>Priorität</mat-label>
+      <mat-select formControlName="priority">
+        @for (option of priorityOptions; track option) {
+          <mat-option [value]="option">
+            {{ option }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+<span class="spacer"></span>
+
+ <div class="new-todo">
+    <button matButton="filled" (click)="openAddTodoDialog()" aria-label="Neues Todo">Neues Todo
+        <mat-icon class="neuesTodo">add</mat-icon>
+    </button>
+ </div>
+
+</mat-toolbar>

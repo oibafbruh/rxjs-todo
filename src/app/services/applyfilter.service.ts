@@ -1,18 +1,20 @@
 /* 
     Hier wird der Datenstream der Todos mit dem der Filtereinstellungen kombiniert, um eine gefilterte Liste von Todos zu übertragen.
+    Außerdem wird ein weiterer Stream erzeugt, in dem abgeschlossene Todos in einen neuen Stream gewandelt werden (Zeile 31-32)
 */
 import { Injectable } from '@angular/core';
 import { Observable, combineLatest } from 'rxjs';
 import { map, debounceTime } from 'rxjs/operators';
 import { FilterService, TodoFilters } from './filter.service';
-import { TodoService, Todo } from './todo.service';
-
+import { TodoService } from './todo.service';
+import { Todo } from "./model.service"
 @Injectable({
     providedIn: 'root'
 })
 
 export class TodoApplyFilterService {
     public readonly filteredTodos$: Observable<Todo[]>;
+    public readonly doneTodos$: Observable<Todo[]>;
 
     constructor(
         private todoService: TodoService,
@@ -24,6 +26,10 @@ export class TodoApplyFilterService {
         ]).pipe(
             debounceTime(0),
             map(([todos, filters]) => this.applyFilters(todos, filters))
+        );
+
+        this.doneTodos$ = this.todoService.alleTodos$.pipe(
+            map(todos => todos.filter(todo => todo.status === "Abgeschlossen"))
         );
     }
     private applyFilters(todos: Todo[], filters: TodoFilters): Todo[] {
@@ -45,4 +51,11 @@ export class TodoApplyFilterService {
         this.todoService.addTodo(newTodoData);
     }
 
+    deleteTodo(id: number) {
+        this.todoService.deleteTodo(id);
+    }
+
+    updateTodo(updatedTodo: Todo) {
+        this.todoService.updateTodo(updatedTodo);
+    }
 }

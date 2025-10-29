@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { Todo } from "../../services/model.service"
 
 @Component({
   selector: 'app-form',
@@ -25,25 +26,28 @@ import { MatButtonModule } from '@angular/material/button';
 export class TodoFormComponent {
   todoForm: FormGroup;
   priorityOptions = ['Niedrig', 'Mittel', 'Hoch'];
+  formName: string;
 
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<TodoFormComponent>,
+
+    @Inject(MAT_DIALOG_DATA) public data: Todo | null
   ) {
+    this.formName = this.data ? 'Bearbeite Todo' : 'Neues Todo';
     this.todoForm = this.fb.group({
-      name: ['', Validators.required],
-      priority: ['Mittel', Validators.required]
+      name: [this.data?.name || '', Validators.required],
+      priority: [this.data?.priority || 'Mittel', Validators.required]
     });
   }
 
   onSave(): void {
     if (this.todoForm.valid) {
-      this.dialogRef.close(this.todoForm.value);
+      this.dialogRef.close({...this.data, ...this.todoForm.value });
     }
   }
 
   onCancel(): void{
     this.dialogRef.close();
   }
-
 }

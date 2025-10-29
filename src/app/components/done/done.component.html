@@ -1,0 +1,28 @@
+@if (doneTodos$ | async; as doneTodos) {
+
+  <mat-accordion class="done-accordion">
+    
+    <mat-expansion-panel>
+      
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>check</mat-icon>
+          Abgeschlossene Todos
+        </mat-panel-title>
+        <mat-panel-description>
+          {{ doneTodos.length }} erledigt
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      
+      @if (doneTodos.length > 0) {
+        <ul class="done-list">
+          @for (todo of doneTodos; track todo.id) {
+            <li>{{ todo.name }}</li> }
+        </ul>
+      } @else {
+        <p class="no-items-message">Keine abgeschlossenen Todos.</p>
+      }
+
+    </mat-expansion-panel>
+  </mat-accordion>
+}

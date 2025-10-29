@@ -1,0 +1,43 @@
+:host {
+  display: block;
+  margin-top: 50px;
+}
+
+.done-list {
+  padding-left: 20px; 
+  padding-top: 16px; 
+  margin: 0;
+}
+
+.done-list li {
+  padding: 4px 0;
+  text-decoration: line-through;
+  color: #777;
+}
+
+
+.no-items-message {
+  padding: 16px 0 0 4px;
+  font-style: italic;
+  color: #777;
+}
+
+.mat-panel-title mat-icon {
+  margin-right: 12px;
+}
+
+mat-icon {
+
+    font-family: "Material Symbols Outlined";
+    font-size: 24px;
+
+    font-variation-settings: 
+        "wght" 200,
+        "GRAD" 0,
+        "FILL" 1,
+        "opsz" 24;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

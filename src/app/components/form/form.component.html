@@ -1,9 +1,8 @@
 <form [formGroup]="todoForm" (ngSubmit)="onSave()">
   
-  <h1 mat-dialog-title class="form-title">Neues Todo erstellen</h1>
+  <h1 mat-dialog-title class="form-title">{{ formName }}</h1>
 
   <div mat-dialog-content>
-    
     <mat-form-field appearance="outline" class="form-name">
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" cdkFocusInitial>
@@ -20,7 +19,6 @@
         }
       </mat-select>
     </mat-form-field>
-
   </div>
 
   <div mat-dialog-actions align="end">

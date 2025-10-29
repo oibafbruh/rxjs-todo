@@ -2,12 +2,13 @@
     Hier wird der Datenstream "TodoFilters" erstellt, der die aktuellen Filter als BehaviourSubject hält. applyFilter.service.ts
     kann dieses Stream abrufen und mit dem Todo-Stream kombinieren, um eine gefilerte Liste für die Tabelle zu liefern.
 */
+
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 
 export interface TodoFilters {
     search: string | null;
-    status: 'Alle' | 'Aktive' | 'Wartet' | 'Abgeschlossen';
+    status: 'Alle' | 'Aktiv' | 'Wartet' | 'Abgeschlossen';
     priority: 'Alle' | 'Niedrig' | 'Mittel' | 'Hoch';
 }
 

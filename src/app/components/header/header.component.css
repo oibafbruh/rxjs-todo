@@ -1,34 +1,27 @@
-mat-toolbar {
-  display: flex;
-  justify-content: space-between;
-}
-
-mat-toolbar mat-icon {
-
-    font-family: "Material Symbols Outlined";
-    font-size: 24px;
-
-    font-variation-settings: 
-        "wght" 200,
-        "GRAD" 0,
-        "FILL" 1,
-        "opsz" 24;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .spacer {
   flex: 1 1 auto;
 }
 
-.header-rechts {
-  display: flex;
-  gap: 8px;
-}
-
-.header-rechts .header-title {
+.header-title {
   font-size: 1.5rem;
   font-weight: 500;
+}
+
+mat-toolbar mat-icon {
+  font-family: "Material Symbols Outlined";
+  font-size: 24px;
+  font-variation-settings:
+    "wght" 200,
+    "GRAD" 0,
+    "FILL" 1,
+    "opsz" 24;
+  vertical-align: middle;
+}
+
+:host ::ng-deep .mat-mdc-icon-button .mat-mdc-button-persistent-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  width: 24px;
 }

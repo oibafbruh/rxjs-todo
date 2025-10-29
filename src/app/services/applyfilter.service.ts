@@ -32,6 +32,7 @@ export class TodoApplyFilterService {
             map(todos => todos.filter(todo => todo.status === "Abgeschlossen"))
         );
     }
+    
     private applyFilters(todos: Todo[], filters: TodoFilters): Todo[] {
     return todos.filter(todo => {
       const searchMatch = todo.name.toLowerCase()

@@ -2,18 +2,16 @@ import { Component, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Observable, Subscription, combineLatest } from 'rxjs'; // Added Subscription
-import { map, debounceTime } from 'rxjs/operators';
-import { FilterService, TodoFilters } from '../../services/filter.service';
-import { TodoService } from '../../services/todo.service';
 import { TodoApplyFilterService } from '../../services/applyfilter.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TodoFormComponent } from '../form/form.component';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator'; // Added MatPaginator
+import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator'; // Added MatPaginator
 import { Todo } from "../../services/model.service"
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { CustomPaginatorIntlService } from '../../services/intl.service';
 
 @Component({
   selector: 'app-table',
@@ -26,10 +24,13 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
     MatDialogModule,
     MatPaginatorModule,
     MatTooltipModule,
-    MatSortModule
+    MatSortModule,
   ],
   templateUrl: './table.component.html',
-  styleUrls: ['./table.component.css']
+  styleUrls: ['./table.component.css'],
+  providers: [
+    { provide: MatPaginatorIntl, useClass: CustomPaginatorIntlService }
+  ]
 })
 export class TodoTableComponent implements OnDestroy {
   public dataSource = new MatTableDataSource<Todo>();

@@ -62,7 +62,6 @@ export class InitialService {
 
   constructor() { }
 
-  // Eine einfache Methode, um die Daten bereitzustellen
   getInitialTodos(): Todo[] {
     return beispiele;
   }

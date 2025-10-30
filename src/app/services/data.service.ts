@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Todo } from './model.service'; 
+import { Todo } from '../models/todo.model'; 
 
 const beispiele: Todo[] = [
   { id: 1, name: 'Einkaufen gehen', status: 'Aktiv', priority: 'Mittel' },
@@ -55,14 +55,30 @@ const beispiele: Todo[] = [
   { id: 51, name: 'Yoga-Übungen machen', status: 'Aktiv', priority: 'Niedrig' }
 ];
 
+  const storageKey = 'TodoItems';
+
 @Injectable({
   providedIn: 'root'
 })
-export class InitialService {
+export class DataService {
 
   constructor() { }
 
-  getInitialTodos(): Todo[] {
+  get(): Todo[] {
+    let storageValue = localStorage.getItem(storageKey);
+    let items: Todo[];
+    if (!storageValue) {
+      items = beispiele;
+      localStorage.setItem(storageKey, JSON.stringify(beispiele));
+    }
+    else {
+      items = JSON.parse(storageValue);
+    }
     return beispiele;
   }
 }
+
+/*
+  CRUD Service, Todos im local storage vom browser als temporäre Datenbank
+  Todo ist der Key und Value gibt alle Todos, somit nur ein Eintrag.
+*/

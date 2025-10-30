@@ -1,17 +1,17 @@
-import { Component, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { Observable, Subscription, combineLatest } from 'rxjs'; // Added Subscription
-import { TodoApplyFilterService } from '../../services/applyfilter.service';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TodoFormComponent } from '../form/form.component';
-import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator'; // Added MatPaginator
-import { Todo } from "../../services/model.service"
+import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
+import { Todo } from "../../models/todo.model"
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { CustomPaginatorIntlService } from '../../services/intl.service';
+import { CustomPaginatorIntl } from '../../helper/custom-paginator-intl';
+import { TodoService } from '../../services/todo.service';
 
 @Component({
   selector: 'app-table',
@@ -29,32 +29,33 @@ import { CustomPaginatorIntlService } from '../../services/intl.service';
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css'],
   providers: [
-    { provide: MatPaginatorIntl, useClass: CustomPaginatorIntlService }
+    { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }
   ]
 })
-export class TodoTableComponent implements OnDestroy {
+export class TodoTableComponent implements OnDestroy, AfterViewInit {
   public dataSource = new MatTableDataSource<Todo>();
   public displayedColumns: string[] = ['id', 'name', 'status', 'priority', 'actions'];
   private dataSubscription: Subscription;
 
-  @ViewChild(MatPaginator) set paginator(paginator: MatPaginator) {
-    this.dataSource.paginator = paginator;
-  }
+  private readonly todoService = inject(TodoService);
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   
-  @ViewChild(MatSort) set sort(sort: MatSort) {
-    this.dataSource.sort = sort;
-  }
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
-    private todoApplyFilterService: TodoApplyFilterService,
     private dialog: MatDialog
   ) {
-    this.dataSubscription = this.todoApplyFilterService.filteredTodos$.subscribe(todos => {
+    this.dataSubscription = this.todoService.filteredTodos$.subscribe(todos => {
       this.dataSource.data = todos;
     if (this.dataSource.paginator) {
         this.dataSource.paginator = this.dataSource.paginator;
     }
     });
+  }
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   ngOnDestroy() {
@@ -64,7 +65,7 @@ export class TodoTableComponent implements OnDestroy {
   }
 
   onDelete(id: number): void {
-    this.todoApplyFilterService.deleteTodo(id);
+    this.todoService.deleteTodo(id);
   }
 
   onEdit(todo: Todo): void {
@@ -75,7 +76,7 @@ export class TodoTableComponent implements OnDestroy {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.todoApplyFilterService.updateTodo(result);
+        this.todoService.updateTodo(result);
       }
     });
   }

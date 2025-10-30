@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -9,11 +9,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { FilterService } from '../../services/filter.service';
+import { FilterService, initialState } from '../../services/filter.service';
 import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { TodoApplyFilterService } from '../../services/applyfilter.service';
 import { TodoFormComponent } from '../form/form.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { TodoService } from '../../services/todo.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -28,14 +29,16 @@ import { TodoFormComponent } from '../form/form.component';
     MatButtonToggleModule,
     MatButtonModule,
     MatSelectModule,
-    MatDialogModule
+    MatDialogModule,
+    MatAutocompleteModule
   ],
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.css'],
 })
 
 export class ToolbarComponent implements OnInit, OnDestroy {
-
+  
+  private readonly todoService = inject(TodoService);
   filterForm: FormGroup;
   private formSub!: Subscription;
   
@@ -45,14 +48,13 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private filterService: FilterService,
-    private applyFilterService: TodoApplyFilterService,
     private dialog: MatDialog
 
   ) {
     this.filterForm = this.fb.group({
-      search: [this.filterService.getInitialState().search],
-      status: [this.filterService.getInitialState().status],
-      priority: [this.filterService.getInitialState().priority],
+      search: initialState.search,
+      status: initialState.status,
+      priority: initialState.priority,
     });
   }
 
@@ -72,7 +74,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   }
 
   reset() {
-    this.filterForm.reset(this.filterService.getInitialState());
+    this.filterForm.patchValue(initialState);
   }
 
   openAddTodoDialog() {
@@ -83,7 +85,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log(result);
-        this.applyFilterService.addTodo(result);
+        this.todoService.addTodo(result);
       }
     });
   }

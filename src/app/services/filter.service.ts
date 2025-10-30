@@ -5,14 +5,9 @@
 
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
+import { TodoFilters } from "../models/todo-filters.model";
 
-export interface TodoFilters {
-    search: string | null;
-    status: 'Alle' | 'Aktiv' | 'Wartet' | 'Abgeschlossen';
-    priority: 'Alle' | 'Niedrig' | 'Mittel' | 'Hoch';
-}
-
-const initialState: TodoFilters = {
+export const initialState: TodoFilters = {
     search: '',
     status: 'Alle',
     priority: 'Alle',
@@ -36,9 +31,5 @@ export class FilterService {
 
     resetFilters() {
         this.filters.next(initialState);
-    }
-
-    getInitialState() {
-        return initialState;
     }
 }

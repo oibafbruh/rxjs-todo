@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { Todo } from "../../services/model.service"
+import { Todo } from "../../models/todo.model"
 
 @Component({
   selector: 'app-form',

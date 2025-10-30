@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
-import { TodoApplyFilterService } from '../../services/applyfilter.service';
-import { Todo } from "../../services/model.service"
+import { Todo } from "../../models/todo.model"
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { TodoService } from '../../services/todo.service';
 
 @Component({
   selector: 'app-done',
@@ -19,9 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class DoneComponent {
   
-  public doneTodos$: Observable<Todo[]>;
-
-  constructor(private todoApplyFilterService: TodoApplyFilterService) {
-    this.doneTodos$ = this.todoApplyFilterService.doneTodos$;
-  }
+  todoService = inject(TodoService);
+  public doneTodos$ = this.todoService.doneTodos$;
+  
 }

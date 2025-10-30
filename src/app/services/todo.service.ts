@@ -2,21 +2,57 @@
   Dieser Service verwaltet jetzt nur noch den Status der Todos
   und holt sich die Anfangsdaten vom InitialService.
 */
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Todo } from './model.service'; // Importiert aus der neuen Model-Datei
-import { InitialService } from './initial.service'; // Importiert den neuen Service
+import { inject, Injectable } from '@angular/core';
+import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
+import { Todo } from '../models/todo.model'; // Importiert aus der neuen Model-Datei
+import { DataService } from './data.service'; // Importiert den neuen Service
+import { FilterService } from './filter.service';
+import { TodoFilters } from '../models/todo-filters.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodoService {
+  private readonly filterService = inject(FilterService);
+
   private readonly alleTodos = new BehaviorSubject<Todo[]>([]);
   public readonly alleTodos$ = this.alleTodos.asObservable();
+  public readonly filteredTodos$: Observable<Todo[]>;
+  public readonly doneTodos$: Observable<Todo[]>;
 
-  constructor(private initialService: InitialService) {
-    this.alleTodos.next(this.initialService.getInitialTodos());
-  }
+
+  //Fütter die initial Todos ins Array
+  constructor(private initialService: DataService) {
+    this.alleTodos.next(this.initialService.get());
+    
+    this.filteredTodos$ = combineLatest([
+            this.alleTodos$,
+            this.filterService.filters$
+        ]).pipe(
+            map(([todos, filters]) => this.applyFilters(todos, filters))
+        );
+
+        this.doneTodos$ = this.alleTodos$.pipe(
+            map(todos => todos.filter(todo => todo.status === "Abgeschlossen"))
+        );
+
+      }
+
+  private applyFilters(todos: Todo[], filters: TodoFilters): Todo[] {
+    return todos.filter(todo => {
+      const searchMatch = todo.name.toLowerCase()
+        .includes(filters.search?.toLowerCase() ?? '');
+      
+      const statusMatch = filters.status === 'Alle' 
+        || todo.status === filters.status;
+      
+      const priorityMatch = filters.priority === 'Alle' 
+        || todo.priority === filters.priority;
+
+      return searchMatch && statusMatch && priorityMatch;
+    });
+    }
+  
   private getNewId(todos: Todo[]): number {
     return todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 1;
   }

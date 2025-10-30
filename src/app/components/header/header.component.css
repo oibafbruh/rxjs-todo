@@ -9,19 +9,17 @@
 
 mat-toolbar mat-icon {
   font-family: "Material Symbols Outlined";
-  font-size: 24px;
   font-variation-settings:
     "wght" 200,
     "GRAD" 0,
     "FILL" 1,
     "opsz" 24;
-  vertical-align: middle;
 }
 
-:host ::ng-deep .mat-mdc-icon-button .mat-mdc-button-persistent-icon {
+/* :host ::ng-deep .mat-mdc-icon-button .mat-mdc-button-persistent-icon {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 24px;
   width: 24px;
-}
+} */

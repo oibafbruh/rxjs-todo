@@ -84,7 +84,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log(result);
         this.todoService.addTodo(result);
       }
     });

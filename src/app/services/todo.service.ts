@@ -4,8 +4,8 @@
 */
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
-import { Todo } from '../models/todo.model'; // Importiert aus der neuen Model-Datei
-import { DataService } from './data.service'; // Importiert den neuen Service
+import { Todo } from '../models/todo.model';
+import { DataService } from './data.service';
 import { FilterService } from './filter.service';
 import { TodoFilters } from '../models/todo-filters.model';
 
@@ -22,8 +22,8 @@ export class TodoService {
 
 
   //Fütter die initial Todos ins Array
-  constructor(private initialService: DataService) {
-    this.alleTodos.next(this.initialService.get());
+  constructor(private dataService: DataService) {
+    this.alleTodos.next(this.dataService.get());
     
     this.filteredTodos$ = combineLatest([
             this.alleTodos$,
@@ -61,17 +61,21 @@ export class TodoService {
     const currentTodos = this.alleTodos.getValue();
 
     const newTodo: Todo = {
-      ...newTodoData,
       id: this.getNewId(currentTodos),
-      status: 'Wartet',
+      name: newTodoData.name,
+      //...newTodoData,
+      status: "Wartet",
+      priority: newTodoData.priority,
     };
     this.alleTodos.next([...currentTodos, newTodo]);
+    this.dataService.add(newTodo);
   }
 
   deleteTodo(id: number) {
     const currentTodos = this.alleTodos.getValue();
     const updatedTodos = currentTodos.filter(todo => todo.id !== id);
     this.alleTodos.next(updatedTodos);
+    this.dataService.delete(id);
   }
 
   updateTodo(updatedTodo: Todo) {
@@ -80,6 +84,7 @@ export class TodoService {
     if (index !== -1) {
       const newTodos = [...currentTodos.slice(0, index), updatedTodo, ...currentTodos.slice(index + 1)];
       this.alleTodos.next(newTodos);
+      this.dataService.update(updatedTodo);
     }
   }
 }

@@ -1,59 +1,27 @@
-# TodoV2
+# Todo V2 - Angular und RxJS Einführungsprojekt
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.7.
+Eine simple Todo App in Angular, mit Angular Material UI und RxJS state control.
 
-## Development server
+# Features:
+- CRUD Funktionen
+- Speicher im local storage vom Browser
+- Such-, Filter- und Sortierfunktion
+- Seperate Datastreams für alle Todos, gefilterte Todos und abgeschlossene Todos
+- Alle Userinputs in ReactiveForms
 
-To start a local development server, run:
+Projekt nutzt Angular CLI version 20.3.7.
 
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+# Struktur:
+- UI Komponenten in `/components`
+    - `/done` eine auf- und zuklappbare Material Card für abgeschlossene Todos.
+    - `/footer` ein simpler Footer.
+    - `/form` ein Dialog Form für das Erstellen und Bearbeiten von Todos.
+    - `/header` ein simpler Header mit Titel und Icons.
+    - `/table` eine Material Table die alle Todos anzeigt, implementiert UI Kontrolle für das bearbeiten, löschen und sortieren der Todos.
+    - `toolbar` eine Toolbar über der Tabelle, für Such- und Filterkontrollen, sowie der Schaltfläche zum Erstellen neuer Todos.
+- Übersetzung für den Paginator in `/helper`
+- `todo-filters.model.ts` und `todo.model.ts` legen die interfaces der Filter und Todos an und werden in `/models` gespeichert.
+- Service Provider in `/services`
+    - `data.service.ts` verwaltet den local storage und bearbeitet diesen Speicher nach den CRUD Funktionen.
+    - `filter.service.ts` speichert aktive Filtereinstellungen und gibt diese weiter.
+    - `todo.service.ts` erzeugt die Datenstreams für alle Todos, gefilterte Todos und abgeschlossene Todos. Übernimmt alle CRUD Funktionen und schreibt diese in die Datenstreams.

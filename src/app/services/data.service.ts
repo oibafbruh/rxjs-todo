@@ -47,6 +47,14 @@ export class DataService {
     localStorage.setItem(storageKey, JSON.stringify(updatedTodos));
     console.log("data.service.ts: delete(" + id + ") ausgeführt")
   }
+
+  public reset(): void {
+    localStorage.removeItem(storageKey);
+  }
+
+  public clear(): void {
+    localStorage.setItem(storageKey, JSON.stringify([]));
+  }
 }
 
 /*

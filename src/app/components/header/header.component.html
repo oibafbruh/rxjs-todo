@@ -8,12 +8,12 @@
   <button mat-icon-button matTooltip="Kommt noch" aria-label="Contrast">
     <mat-icon>contrast</mat-icon>
   </button>
-  <button mat-icon-button matTooltip="Kommt noch" aria-label="Settings">
+  <button mat-icon-button matTooltip="Einstellungen" (click)="openSettingsDialog()" label="Settings">
     <mat-icon class="settings-icon">settings</mat-icon>
   </button>
 
   @if (isMobile) {
-    <button mat-icon-button (click)="menuToggle.emit()" aria-label="Toggle filter menu">
+    <button mat-icon-button (click)="menuToggle.emit()" matTooltip="Menü einblenden" aria-label="Toggle filter menu">
       <mat-icon>menu</mat-icon>
     </button>
   }

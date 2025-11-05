@@ -88,4 +88,15 @@ export class TodoService {
       this.dataService.update(updatedTodo);
     }
   }
+
+  public resetTodos(): void {
+    this.dataService.reset();
+    const initialData = this.dataService.get();
+    this.alleTodos.next(initialData);
+  }
+
+  public clearTodos(): void {
+    this.dataService.clear();
+    this.alleTodos.next([]);
+  }
 }

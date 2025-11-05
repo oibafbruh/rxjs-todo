@@ -1,0 +1,32 @@
+<h1 mat-dialog-title>Einstellungen</h1>
+
+<div mat-dialog-content>
+  <hr>
+
+  <p>Lösche alle Änderungen</p>
+  <button mat-flat-button matTooltip="Todos zurücksetzen" color="warn" (click)="onResetStorage()">
+    <mat-icon class="reset">history</mat-icon>
+    Todos zurücksetzen
+  </button>
+
+  <p>Lösche alle Todos</p>
+  <button mat-flat-button matTooltip="Lösche alle Todos" class="warn-button" (click)="onClearStorage()">
+    <mat-icon class="reset">delete</mat-icon>
+    Todos löschen
+  </button>
+
+  <!-- <button mat-icon-button matTooltip="Einstellungen" (click)="openSettingsDialog()" label="Settings">
+    <mat-icon class="settings-icon">settings</mat-icon>
+  </button> -->
+
+  <!-- <div class="new-todo">
+    <button mat-flat-button color="primary" (click)="openAddTodoDialog()" aria-label="Neues Todo" matTooltip="Neues Todo anlegen">
+        <mat-icon class="neuesTodo">add</mat-icon>
+        <span>Neues Todo</span>
+    </button>
+  </div> -->
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onClose()">Schließen</button>
+</div>

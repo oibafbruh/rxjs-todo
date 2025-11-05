@@ -56,9 +56,3 @@ export class DataService {
     localStorage.setItem(storageKey, JSON.stringify([]));
   }
 }
-
-/*
-  CRUD Service, Todos im local storage vom browser als temporäre Datenbank
-  Todo ist der Key und Value gibt alle Todos, somit nur ein Eintrag.
-  Sidenav einbauen und responsive machen.
-*/

@@ -34,7 +34,6 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     MatDialogModule,
     MatAutocompleteModule,
     MatSidenavModule,
-    MatTooltipModule,
     MatTooltipModule
 ],
   templateUrl: './sidenav.component.html',

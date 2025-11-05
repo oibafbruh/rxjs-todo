@@ -48,6 +48,9 @@ export class TodoTableComponent implements OnDestroy, AfterViewInit {
   constructor() {
     this.dataSubscription = this.todoService.filteredTodos$.subscribe(todos => {
       this.dataSource.data = todos;
+    // if (this.dataSource.paginator) {
+    //     this.dataSource.paginator = this.dataSource.paginator;
+    // }
     });
   }
   ngAfterViewInit(): void {

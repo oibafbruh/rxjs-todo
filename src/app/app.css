@@ -20,3 +20,7 @@
 .content {
   padding: 24px;
 }
+
+.mat-mdc-icon-button {
+  padding: calc(5.5px);
+}

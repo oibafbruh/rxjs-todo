@@ -37,11 +37,11 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     MatTooltipModule,
     MatTooltipModule
 ],
-  templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.css'],
+  templateUrl: './sidenav.component.html',
+  styleUrls: ['./sidenav.component.css'],
 })
 
-export class ToolbarComponent implements OnInit, OnDestroy {
+export class SideComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private filterService = inject(FilterService);
   private dialog = inject(MatDialog);

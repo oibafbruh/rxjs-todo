@@ -5,7 +5,7 @@
   padding: 24px 16px;
 }
 
-.toolbar-section {
+.sidenav-section {
   display: flex;
   flex-direction: column;
 }
@@ -16,7 +16,7 @@
   width: 100%;
 }
 
-.toolbar-section mat-label {
+.sidenav-section mat-label {
   margin-bottom: 8px;
   font-weight: 500;
 }

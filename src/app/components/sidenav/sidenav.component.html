@@ -7,14 +7,14 @@
     </button>
   </div>
 
-  <div class="toolbar-section">
-    <mat-form-field class="search-field" appearance="outline" matToolTip="Suche">
+  <div class="sidenav-section">
+    <mat-form-field class="search-field" appearance="outline">
       <mat-icon matPrefix></mat-icon>
       <input matInput placeholder="Suche todos..." formControlName="search">
     </mat-form-field>
   </div>
 
-  <div class="toolbar-section">
+  <div class="sidenav-section">
     <mat-label>Status</mat-label>
     <mat-button-toggle-group formControlName="status" vertical aria-label="Todo filters">
       <mat-button-toggle value="Alle">Alle</mat-button-toggle>
@@ -24,7 +24,7 @@
     </mat-button-toggle-group>
   </div>
   
-  <div class="toolbar-section">
+  <div class="sidenav-section">
     <mat-form-field appearance="outline" class="priority-field">
       <mat-label>Priorität</mat-label>
       <mat-select formControlName="priority">

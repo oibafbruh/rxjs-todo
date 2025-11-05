@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, inject, OnDestroy, ViewChild } from '@angular/core';
 import { HeaderComponent } from './components/header/header.component';
-import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { SideComponent } from './components/sidenav/sidenav.component';
 import { TodoTableComponent } from './components/table/table.component';
 import { FooterComponent } from "./components/footer/footer.component";
 import { DoneComponent } from './components/done/done.component';
@@ -14,7 +14,7 @@ import { Subscription} from "rxjs";
   standalone: true,
   imports: [
     HeaderComponent,
-    ToolbarComponent,
+    SideComponent,
     TodoTableComponent,
     FooterComponent,
     DoneComponent,

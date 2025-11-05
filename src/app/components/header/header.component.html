@@ -12,4 +12,10 @@
     <mat-icon class="settings-icon">settings</mat-icon>
   </button>
 
+  @if (isMobile) {
+    <button mat-icon-button (click)="menuToggle.emit()" aria-label="Toggle filter menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+  }
+
 </mat-toolbar>

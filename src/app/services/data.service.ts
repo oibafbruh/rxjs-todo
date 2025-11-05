@@ -12,7 +12,7 @@ export class DataService {
   constructor() { }
 
   get(): Todo[] {
-    let storageValue = localStorage.getItem(storageKey);
+    const storageValue = localStorage.getItem(storageKey);
     let items: Todo[];
     if (!storageValue) {
       items = beispiele;

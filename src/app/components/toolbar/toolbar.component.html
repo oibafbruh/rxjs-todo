@@ -1,14 +1,22 @@
-<mat-toolbar [formGroup]="filterForm">
+<div class="filter-panel" [formGroup]="filterForm">
+
+  <div class="new-todo">
+    <button mat-flat-button color="primary" (click)="openAddTodoDialog()" aria-label="Neues Todo" matTooltip="Neues Todo anlegen.">
+        <mat-icon class="neuesTodo">add</mat-icon>
+        <span>Neues Todo</span>
+    </button>
+  </div>
 
   <div class="toolbar-section">
-    <mat-form-field class="search-field" appearance="outline">
-      <mat-icon matPrefix>search</mat-icon>
+    <mat-form-field class="search-field" appearance="outline" matToolTip="Suche">
+      <mat-icon matPrefix></mat-icon>
       <input matInput placeholder="Suche todos..." formControlName="search">
     </mat-form-field>
   </div>
 
   <div class="toolbar-section">
-    <mat-button-toggle-group formControlName="status" aria-label="Todo filters">
+    <mat-label>Status</mat-label>
+    <mat-button-toggle-group formControlName="status" vertical aria-label="Todo filters">
       <mat-button-toggle value="Alle">Alle</mat-button-toggle>
       <mat-button-toggle value="Wartet">Wartet</mat-button-toggle>
       <mat-button-toggle value="Aktiv">Aktiv</mat-button-toggle>
@@ -29,12 +37,6 @@
     </mat-form-field>
   </div>
 
-<span class="spacer"></span>
+  
 
- <div class="new-todo">
-    <button matButton="filled" (click)="openAddTodoDialog()" aria-label="Neues Todo">Neues Todo
-        <mat-icon class="neuesTodo">add</mat-icon>
-    </button>
- </div>
-
-</mat-toolbar>
+</div>

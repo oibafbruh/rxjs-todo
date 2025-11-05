@@ -13,6 +13,8 @@ import { TodoFilters } from '../models/todo-filters.model';
   providedIn: 'root'
 })
 export class TodoService {
+  private dataService = inject(DataService);
+
   private readonly filterService = inject(FilterService);
 
   private readonly alleTodos = new BehaviorSubject<Todo[]>([]);
@@ -20,9 +22,12 @@ export class TodoService {
   public readonly filteredTodos$: Observable<Todo[]>;
   public readonly doneTodos$: Observable<Todo[]>;
 
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
 
   //Fütter die initial Todos ins Array
-  constructor(private dataService: DataService) {
+  constructor() {
     this.alleTodos.next(this.dataService.get());
     
     this.filteredTodos$ = combineLatest([

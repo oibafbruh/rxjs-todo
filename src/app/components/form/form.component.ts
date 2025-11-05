@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
@@ -24,16 +24,18 @@ import { Todo } from "../../models/todo.model"
   styleUrls: ['./form.component.css'],
 })
 export class TodoFormComponent {
+  private fb = inject(FormBuilder);
+  dialogRef = inject<MatDialogRef<TodoFormComponent>>(MatDialogRef);
+  data = inject<Todo | null>(MAT_DIALOG_DATA);
+
   todoForm: FormGroup;
   priorityOptions = ['Niedrig', 'Mittel', 'Hoch'];
   formName: string;
 
-  constructor(
-    private fb: FormBuilder,
-    public dialogRef: MatDialogRef<TodoFormComponent>,
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
 
-    @Inject(MAT_DIALOG_DATA) public data: Todo | null
-  ) {
+  constructor() {
     this.formName = this.data ? 'Bearbeite Todo' : 'Neues Todo';
     this.todoForm = this.fb.group({
       name: [this.data?.name || '', Validators.required],

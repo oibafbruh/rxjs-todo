@@ -33,6 +33,8 @@ import { TodoService } from '../../services/todo.service';
   ]
 })
 export class TodoTableComponent implements OnDestroy, AfterViewInit {
+  private dialog = inject(MatDialog);
+
   public dataSource = new MatTableDataSource<Todo>();
   public displayedColumns: string[] = ['id', 'name', 'status', 'priority', 'actions'];
   private dataSubscription: Subscription;
@@ -43,9 +45,10 @@ export class TodoTableComponent implements OnDestroy, AfterViewInit {
   
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(
-    private dialog: MatDialog
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.dataSubscription = this.todoService.filteredTodos$.subscribe(todos => {
       this.dataSource.data = todos;
     if (this.dataSource.paginator) {

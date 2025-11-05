@@ -15,6 +15,9 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TodoFormComponent } from '../form/form.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { TodoService } from '../../services/todo.service';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { fromReadableStreamLike } from 'rxjs/internal/observable/innerFrom';
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-toolbar',
@@ -30,27 +33,33 @@ import { TodoService } from '../../services/todo.service';
     MatButtonModule,
     MatSelectModule,
     MatDialogModule,
-    MatAutocompleteModule
-  ],
+    MatAutocompleteModule,
+    MatSidenavModule,
+    MatTooltipModule,
+    MatTooltipModule
+],
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.css'],
 })
 
 export class ToolbarComponent implements OnInit, OnDestroy {
+  private fb = inject(FormBuilder);
+  private filterService = inject(FilterService);
+  private dialog = inject(MatDialog);
+
   
   private readonly todoService = inject(TodoService);
   filterForm: FormGroup;
   private formSub!: Subscription;
+  //showFiller = false;
   
 
   priorityOptions = ['Alle', 'Niedrig', 'Mittel', 'Hoch'];
 
-  constructor(
-    private fb: FormBuilder,
-    private filterService: FilterService,
-    private dialog: MatDialog
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
 
-  ) {
+  constructor() {
     this.filterForm = this.fb.group({
       search: initialState.search,
       status: initialState.status,

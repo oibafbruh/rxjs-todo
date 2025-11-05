@@ -1,16 +1,33 @@
-:host {
-  display: block;
-}
-
-mat-toolbar {
+.filter-panel {
   display: flex;
-  align-items: baseline; 
-  gap: 16px;
-  padding: 0 16px;
-  height: 64px; 
+  flex-direction: column; 
+  gap: 20px; 
+  padding: 24px 16px;
 }
 
-mat-toolbar mat-icon {
+.toolbar-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-field,
+.priority-field,
+.new-todo button {
+  width: 100%;
+}
+
+.toolbar-section mat-label {
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+.new-todo button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+mat-icon {
 
     font-family: "Material Symbols Outlined";
     font-size: 24px;
@@ -20,50 +37,4 @@ mat-toolbar mat-icon {
         "GRAD" 0,
         "FILL" 1,
         "opsz" 24;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.spacer {
-  flex: 1 1 auto;
-}
-
-.toolbar-section {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-}
-
-mat-button-toggle-group {
-  height: 40px;
-}
-
-.search-field,
-.priority-field {
-  --mdc-outlined-text-field-container-height: 40px;
-  width: 200px;
-}
-
-.search-field {
-    position: relative;
-    top: 8px;
-}
-
-:host ::ng-deep .search-field .mat-mdc-form-field-flex,
-:host ::ng-deep .priority-field .mat-mdc-form-field-flex {
-  height: 40px;
-  align-items: center;
-}
-
-:host ::ng-deep .search-field .mat-mdc-text-field-wrapper,
-:host ::ng-deep .priority-field .mat-mdc-text-field-wrapper {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-}
-
-:host ::ng-deep .search-field .mdc-text-field--outlined,
-:host ::ng-deep .priority-field .mdc-text-field--outlined {
-  height: 40px;
 }

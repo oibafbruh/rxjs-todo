@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component ,Input, Output, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -15,11 +16,18 @@ import { MatSelectModule } from '@angular/material/select';
     MatToolbarModule,
     MatTooltipModule,
     MatFormFieldModule,
-    MatSelectModule
+    MatSelectModule,
+    CommonModule
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent {
+  @Input() isMobile: boolean | null = false;
+  @Output() menuToggle = new EventEmitter<void>();
+
+  onMenuToggle(): void {
+    this.menuToggle.emit();
+  }
 
 }

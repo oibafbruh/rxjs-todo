@@ -32,9 +32,6 @@ export class TodoFormComponent {
   priorityOptions = ['Niedrig', 'Mittel', 'Hoch'];
   formName: string;
 
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);
-
   constructor() {
     this.formName = this.data ? 'Bearbeite Todo' : 'Neues Todo';
     this.todoForm = this.fb.group({

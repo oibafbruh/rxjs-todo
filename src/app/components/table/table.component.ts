@@ -1,7 +1,7 @@
 import { Component, AfterViewInit, OnDestroy, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { Observable, Subscription, combineLatest } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -45,15 +45,9 @@ export class TodoTableComponent implements OnDestroy, AfterViewInit {
   
   @ViewChild(MatSort) sort!: MatSort;
 
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);
-
   constructor() {
     this.dataSubscription = this.todoService.filteredTodos$.subscribe(todos => {
       this.dataSource.data = todos;
-    if (this.dataSource.paginator) {
-        this.dataSource.paginator = this.dataSource.paginator;
-    }
     });
   }
   ngAfterViewInit(): void {

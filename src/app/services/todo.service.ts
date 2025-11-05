@@ -22,10 +22,6 @@ export class TodoService {
   public readonly filteredTodos$: Observable<Todo[]>;
   public readonly doneTodos$: Observable<Todo[]>;
 
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);
-
-
   //Fütter die initial Todos ins Array
   constructor() {
     this.alleTodos.next(this.dataService.get());

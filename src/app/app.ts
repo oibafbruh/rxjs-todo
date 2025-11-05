@@ -1,15 +1,13 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, OnDestroy, ViewChild } from '@angular/core';
 import { HeaderComponent } from './components/header/header.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { TodoTableComponent } from './components/table/table.component';
 import { FooterComponent } from "./components/footer/footer.component";
 import { DoneComponent } from './components/done/done.component';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { map } from "rxjs/operators";
-import { Observable, Subscription} from "rxjs";
-import { AsyncPipe } from '@angular/common';
-import { fromReadableStreamLike } from 'rxjs/internal/observable/innerFrom';
+import { Subscription} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -27,14 +25,11 @@ import { fromReadableStreamLike } from 'rxjs/internal/observable/innerFrom';
 })
 export class App implements AfterViewInit, OnDestroy {
   @ViewChild('sidenav') sidenav!: MatSidenav;
-  isMobile: boolean = false;
+  isMobile = false;
   private breakpointSub!: Subscription;
 
-  constructor(
-    private breakpointObserver: BreakpointObserver,
-    private cdr: ChangeDetectorRef 
-  ) {
-  }
+  private breakpointObserver = inject(BreakpointObserver);
+  private cdr = inject(ChangeDetectorRef);
 
   ngAfterViewInit() {
     this.breakpointSub = this.breakpointObserver.observe([

@@ -22,8 +22,6 @@ export class FilterService {
     private readonly filters = new BehaviorSubject<TodoFilters>(initialState);
     readonly filters$ = this.filters.asObservable();
 
-    constructor() {}
-
     updateFilters(newFilters: Partial<TodoFilters>) {
         const currentState = this.filters.getValue();
         this.filters.next({ ...currentState, ...newFilters });

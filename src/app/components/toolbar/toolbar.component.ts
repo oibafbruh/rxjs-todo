@@ -16,7 +16,6 @@ import { TodoFormComponent } from '../form/form.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { TodoService } from '../../services/todo.service';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { fromReadableStreamLike } from 'rxjs/internal/observable/innerFrom';
 import { MatTooltipModule } from "@angular/material/tooltip";
 
 @Component({
@@ -51,13 +50,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   private readonly todoService = inject(TodoService);
   filterForm: FormGroup;
   private formSub!: Subscription;
-  //showFiller = false;
-  
 
   priorityOptions = ['Alle', 'Niedrig', 'Mittel', 'Hoch'];
-
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);
 
   constructor() {
     this.filterForm = this.fb.group({

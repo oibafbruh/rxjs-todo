@@ -39,7 +39,7 @@ export class App implements AfterViewInit, OnDestroy {
     )
     .subscribe(isMobileResult => {
       this.isMobile = isMobileResult;
-      console.log("app.ts: isMobile = " + this.isMobile);
+      //console.log("app.ts: isMobile = " + this.isMobile); //Debug
       this.cdr.detectChanges();
     });
   }

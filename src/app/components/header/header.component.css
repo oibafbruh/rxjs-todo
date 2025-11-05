@@ -7,6 +7,15 @@
   font-weight: 500;
 }
 
+.mat-icon {
+  display: inline;
+  align-items: center;
+}
+
+.mat-mdc-icon-button {
+  padding: calc(5.5px);
+}
+
 mat-toolbar mat-icon {
   font-family: "Material Symbols Outlined";
   font-variation-settings:

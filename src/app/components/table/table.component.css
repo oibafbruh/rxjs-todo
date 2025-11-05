@@ -15,6 +15,10 @@ mat-icon {
   justify-content: center;
 }
 
+.mat-mdc-icon-button {
+  padding: calc(5.5px);
+}
+
 mat-paginator {
   margin-top: 16px;
 }

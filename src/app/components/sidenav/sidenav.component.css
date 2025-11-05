@@ -1,40 +1,88 @@
+/* Main container */
 .filter-panel {
   display: flex;
-  flex-direction: column; 
-  gap: 20px; 
+  flex-direction: column;
+  gap: 24px;
   padding: 24px 16px;
 }
 
-.sidenav-section {
+/* Sections */
+.filter-section {
   display: flex;
   flex-direction: column;
 }
 
+.filter-section mat-label {
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.mat-mdc-icon-button {
+  padding: calc(5px);
+}
+
+.mat-icon {
+  display: inline;
+  align-items: center;
+}
+
+/* Full width inputs/buttons */
 .search-field,
 .priority-field,
 .new-todo button {
   width: 100%;
+  display: inline;
 }
 
-.sidenav-section mat-label {
-  margin-bottom: 8px;
-  font-weight: 500;
-}
+/* Add Todo Button */
 .new-todo button {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  background-color: #c7b37f;
+  color: #443135;
+  border-radius: 12px;
 }
 
+/* --- ✅ FIXED TOGGLE GROUP STYLING --- */
+:host ::ng-deep .mat-mdc-button-toggle-group {
+  border: 1px solid #c7b37f !important;
+  border-radius: 16px !important;
+  overflow: hidden;
+}
+
+/* Remove separators between toggles */
+:host ::ng-deep .mat-mdc-button-toggle + .mat-mdc-button-toggle {
+  border-left: none !important;
+}
+
+/* Default state */
+:host ::ng-deep .mat-mdc-button-toggle {
+  background: #fafafa;
+  color: #443135;
+  font-weight: 500;
+}
+
+/* Selected state */
+:host ::ng-deep .mat-mdc-button-toggle.mat-mdc-button-toggle-checked {
+  background-color: #c7b37f !important;
+}
+
+/* Selected label color */
+:host ::ng-deep .mat-mdc-button-toggle.mat-mdc-button-toggle-checked .mat-mdc-button-toggle-label-text {
+  color: black !important;
+}
+
+/* Remove hover ripple discolor */
 mat-icon {
 
     font-family: "Material Symbols Outlined";
     font-size: 24px;
 
     font-variation-settings: 
-        "wght" 200,
+        "wght" 400,
         "GRAD" 0,
-        "FILL" 1,
+        "FILL" 0,
         "opsz" 24;
 }

@@ -1,20 +1,20 @@
 <div class="filter-panel" [formGroup]="filterForm">
-
+  
   <div class="new-todo">
-    <button mat-flat-button color="primary" (click)="openAddTodoDialog()" aria-label="Neues Todo" matTooltip="Neues Todo anlegen">
-        <mat-icon class="neuesTodo">add</mat-icon>
+    <button mat-flat-button (click)="openAddTodoDialog()" aria-label="Neues Todo" matTooltip="Neues Todo anlegen">
+        <mat-icon>add</mat-icon>
         <span>Neues Todo</span>
     </button>
   </div>
 
-  <div class="sidenav-section">
+  <div class="filter-section">
     <mat-form-field class="search-field" appearance="outline">
-      <mat-icon matPrefix></mat-icon>
+      <mat-icon matPrefix>search</mat-icon>
       <input matInput placeholder="Suche todos..." formControlName="search">
     </mat-form-field>
   </div>
 
-  <div class="sidenav-section">
+  <div class="filter-section">
     <mat-label>Status</mat-label>
     <mat-button-toggle-group formControlName="status" vertical aria-label="Todo filters">
       <mat-button-toggle value="Alle">Alle</mat-button-toggle>
@@ -24,10 +24,10 @@
     </mat-button-toggle-group>
   </div>
   
-  <div class="sidenav-section">
+  <div class="filter-section">
     <mat-form-field appearance="outline" class="priority-field">
       <mat-label>Priorität</mat-label>
-      <mat-select formControlName="priority">
+      <mat-select formControlName="priority" placeholder="Priorität">
         @for (option of priorityOptions; track option) {
           <mat-option [value]="option">
             {{ option }}

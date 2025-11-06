@@ -1,18 +1,4 @@
 <div class="filter-panel" [formGroup]="filterForm">
-  
-  <div class="new-todo">
-    <button mat-flat-button (click)="openAddTodoDialog()" aria-label="Neues Todo" matTooltip="Neues Todo anlegen">
-        <mat-icon>add</mat-icon>
-        <span>Neues Todo</span>
-    </button>
-  </div>
-
-  <div class="filter-section">
-    <mat-form-field class="search-field" appearance="outline">
-      <mat-icon matPrefix>search</mat-icon>
-      <input matInput placeholder="Suche todos..." formControlName="search">
-    </mat-form-field>
-  </div>
 
   <div class="filter-section">
     <mat-label>Status</mat-label>

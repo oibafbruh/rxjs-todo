@@ -1,7 +1,8 @@
 import { Tag } from '../models/tag.model';
     
 export const beispielTags: Tag[] = [
-    { name: "A", color: "#4caf50"},
-    { name: "B", color: "#2196f3"},
-    { name: "C", color: "#f44336"},
+    { name: "Arbeit", color: "#4caf4f9d" },
+    { name: "Persönlich", color: "#2195f38b" },
+    { name: "Dringend", color: "#f4433697" },
+    { name: "Einkauf", color: "#ff99007e" }
 ];

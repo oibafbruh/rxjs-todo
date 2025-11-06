@@ -1,78 +1,49 @@
-.filter-panel {
+.action-toolbar {
   display: flex;
-  flex-direction: column;
-  gap: 24px;
-  padding: 24px 16px;
-}
-
-.filter-section {
-  display: flex;
-  flex-direction: column;
-}
-
-.filter-section mat-label {
-  margin-bottom: 8px;
-  font-weight: 500;
-}
-
-.mat-mdc-icon-button {
-  padding: 5px;
-}
-
-.mat-icon {
-  display: inline;
   align-items: center;
+  gap: 16px;
+  padding: 0 24px;
+  height: 64px;
+  background-color: #fafafa;
+  border-bottom: 1px solid #e0e0e0;
+  flex-direction: row;
+}
+.mat-mdc-form-field {
+  flex-direction: row;
+}
+.search-field {
+  width: 300px;
+  /* Das Suchfeld ist 40px hoch */
+  --mdc-outlined-text-field-container-height: 40px; 
 }
 
-.search-field,
-.priority-field,
-.new-todo button {
-  width: 100%;
-  display: inline;
-}
-
-.new-todo button {
+/* * Der Fix: Wir zwingen den Button, auch 40px hoch zu sein,
+ * damit er perfekt zum Suchfeld passt.
+*/
+.new-todo-button {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: #c7b37f;
-  color: #443135;
-  border-radius: 12px;
+  height: 40px; /* <-- DER FIX */
 }
 
-:host ::ng-deep .mat-mdc-button-toggle-group {
-  border: 1px solid #c7b37f !important;
-  border-radius: 16px !important;
-  overflow: hidden;
+/* Diese Regel zentriert die Lupe im Suchfeld */
+:host ::ng-deep .search-field .mat-mdc-form-field-flex {
+  height: 40px;
+  align-items: center;
 }
 
-:host ::ng-deep .mat-mdc-button-toggle + .mat-mdc-button-toggle {
-  border-left: none !important;
-}
-
-:host ::ng-deep .mat-mdc-button-toggle {
-  background: #fafafa;
-  color: #443135;
-  font-weight: 500;
-}
-
-:host ::ng-deep .mat-mdc-button-toggle.mat-mdc-button-toggle-checked {
-  background-color: #c7b37f !important;
-}
-
-:host ::ng-deep .mat-mdc-button-toggle.mat-mdc-button-toggle-checked .mat-mdc-button-toggle-label-text {
-  color: black !important;
-}
-
+/* Diese Regel zentriert die Icons */
 mat-icon {
-
-    font-family: "Material Symbols Outlined";
-    font-size: 24px;
-
-    font-variation-settings: 
-        "wght" 400,
-        "GRAD" 0,
-        "FILL" 0,
-        "opsz" 24;
+  font-family: "Material Symbols Outlined";
+  font-size: 24px;
+  font-variation-settings:
+    "wght" 400,
+    "GRAD" 0,
+    "FILL" 0,
+    "opsz" 24;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

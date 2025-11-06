@@ -22,7 +22,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { Tag } from '../../models/tag.model';
 
 @Component({
-  selector: 'app-toolbar',
+  selector: 'app-sidenav',
   standalone: true,
   imports: [
     CommonModule,
@@ -47,7 +47,6 @@ import { Tag } from '../../models/tag.model';
 
 export class SideComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
-  private dialog = inject(MatDialog);
 
   private readonly todoService = inject(TodoService);
   filterForm: FormGroup;
@@ -59,7 +58,6 @@ export class SideComponent implements OnInit, OnDestroy {
 
   constructor() {
     this.filterForm = this.fb.group({
-      search: initialState.search,
       status: initialState.status,
       priority: initialState.priority,
     });
@@ -67,7 +65,7 @@ export class SideComponent implements OnInit, OnDestroy {
 
   this.tagForm = this.fb.group({
     name: ['', Validators.required],
-    color: ['#C7B37C']
+    color: ['#009826ff']
   });
 
   this.alleTags$ = this.todoService.alleTags$;
@@ -92,25 +90,13 @@ export class SideComponent implements OnInit, OnDestroy {
     this.filterForm.patchValue(initialState);
   }
 
-  openAddTodoDialog() {
-    const dialogRef = this.dialog.open(TodoFormComponent, {
-      width: '400px',
-  });
-
-  dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.todoService.addTodo(result);
-      }
-    });
-  }
-
   onAddTag(): void {
     if (this.tagForm.invalid) {
       return;
     }
 
     this.todoService.addTag(this.tagForm.value);
-    this.tagForm.reset({name: '', color: '#C7B37F'});
+    this.tagForm.reset({name: '', color: '#009826ff'});
   }
 
   onDeleteTag(tagName: string): void {

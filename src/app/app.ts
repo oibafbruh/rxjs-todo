@@ -7,6 +7,7 @@ import { DoneComponent } from './components/done/done.component';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { BreakpointService } from './services/breakpoint.service';
 import { AsyncPipe } from '@angular/common'
+import { ActionToolbarComponent } from "./components/toolbar/toolbar.component";
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,8 @@ import { AsyncPipe } from '@angular/common'
     FooterComponent,
     DoneComponent,
     MatSidenavModule,
-    AsyncPipe
+    AsyncPipe,
+    ActionToolbarComponent
 ],
   templateUrl: './app.html',
   styleUrl: './app.css'

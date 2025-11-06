@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { FloatLabelType, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -28,64 +28,55 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatButtonToggleModule,
     MatButtonModule,
-    MatSelectModule,
     MatDialogModule,
-    MatAutocompleteModule,
-    MatSidenavModule,
     MatTooltipModule
-],
+  ],
   templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.css'],
+  styleUrls: ['./toolbar.component.css']
 })
-
-export class SideComponent implements OnInit, OnDestroy {
+export class ActionToolbarComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private dialog = inject(MatDialog);
+  private readonly todoService = inject(TodoService); // Dein Facade
 
-  private readonly todoService = inject(TodoService);
-  filterForm: FormGroup;
+  searchForm: FormGroup;
   private formSub!: Subscription;
 
-  priorityOptions = ['Alle', 'Niedrig', 'Mittel', 'Hoch'];
-
   constructor() {
-    this.filterForm = this.fb.group({
-      search: initialState.search,
-      status: initialState.status,
-      priority: initialState.priority,
+    // Dieses Formular steuert NUR noch das Suchfeld
+    this.searchForm = this.fb.group({
+      search: [initialState.search]
     });
   }
 
   ngOnInit(): void {
-    this.formSub = this.filterForm.valueChanges.pipe(
+    // Diese Subscription sendet NUR Such-Updates
+    this.formSub = this.searchForm.get('search')!.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged()
-    ).subscribe( formValues => {
-      this.todoService.updateFilters(formValues);
+    ).subscribe(searchValue => {
+      // Wir rufen updateFilters nur mit dem 'search'-Teil auf
+      this.todoService.updateFilters({ search: searchValue });
     });
   }
 
   ngOnDestroy(): void {
     if (this.formSub) {
       this.formSub.unsubscribe();
-    }   
+    }
   }
 
-  reset() {
-    this.filterForm.patchValue(initialState);
-  }
-
+  // Diese Methode ist von der Sidenav hierher umgezogen
   openAddTodoDialog() {
     const dialogRef = this.dialog.open(TodoFormComponent, {
       width: '400px',
-  });
+    });
 
-  dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.todoService.addTodo(result);
       }
     });
   }
-}
+ }

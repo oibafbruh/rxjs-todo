@@ -36,5 +36,44 @@
       </mat-select>
     </mat-form-field>
   </div>
+<mat-divider></mat-divider>
+
+  <div class="filter-section tag-management-section">
+    <mat-label>Tags verwalten</mat-label>
+
+    <mat-chip-listbox class="tag-list" aria-label="Tag-Liste">
+      @if (alleTags$ | async; as tags) {
+        @for (tag of tags; track tag.name) {
+          <mat-chip-row [style.background-color]="tag.color" [style.color]="'white'">
+            {{ tag.name }}
+            <button matChipRemove (click)="onDeleteTag(tag.name)" [aria-label]="'Lösche ' + tag.name">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+        }
+      }
+    </mat-chip-listbox>
+
+    <form [formGroup]="tagForm" (ngSubmit)="onAddTag()" class="add-tag-form">
+      
+      <div class="tag-input-group">
+        <input type="color" formControlName="color" class="tag-color-picker" matTooltip="Tag Farbe auswählen">
+
+        <mat-form-field appearance="outline" class="tag-name-field">
+          <input matInput placeholder="Neuer Tag-Name" formControlName="name" required>
+          <mat-icon matSuffix matTooltip="Tag hinzufügen">
+            <button mat-icon-button type="submit" [disabled]="tagForm.invalid" aria-label="Tag hinzufügen">
+              <mat-icon>add_circle</mat-icon>
+            </button>
+          </mat-icon>
+          @if (tagForm.get('name')?.hasError('required') && tagForm.get('name')?.touched) {
+            <mat-error>Name ist erforderlich</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+    </form>
+
+  </div>
 
 </div>

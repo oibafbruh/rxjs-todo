@@ -7,7 +7,7 @@ const storageKey = 'TodoItems';
 @Injectable({
   providedIn: 'root'
 })
-export class DataService {
+export class TodoDataService {
 
   get(): Todo[] {
     const storageValue = localStorage.getItem(storageKey);
@@ -31,14 +31,9 @@ export class DataService {
 
   update(updatedTodo: Todo): void {
     const currentTodos = this.get();
-    const index = currentTodos.findIndex(todo => todo.id === updatedTodo.id);
-    if (index !== -1) {
-      currentTodos[index] = updatedTodo;
-      localStorage.setItem(storageKey, JSON.stringify(currentTodos));
+    const newValue = currentTodos.map(t => t.id === updatedTodo.id ? updatedTodo : t);
+    localStorage.setItem(storageKey, JSON.stringify(newValue));
     console.log("data.service.ts: update(" + updatedTodo.id + ") ausgeführt");
-    } else {
-      console.warn("data.service.ts: update Fehler - Todo ID nicht gefunden.")
-    }
   }
 
   delete(id: number): void {
@@ -48,11 +43,25 @@ export class DataService {
     console.log("data.service.ts: delete(" + id + ") ausgeführt")
   }
 
-  public reset(): void {
+  reset(): void {
     localStorage.removeItem(storageKey);
   }
 
-  public clear(): void {
+  clear(): void {
     localStorage.setItem(storageKey, JSON.stringify([]));
   }
 }
+
+// private todosSubject = new BehaviorSubject<Todo[]>(this.get());
+// todos$ = this.todosSubject.asObservable();
+
+  // add(newTodo: Todo): void {
+  //   const updatedTodos = [...this.todosSubject.value, newTodo];
+  //   this.saveTodos(updatedTodos);
+  // }
+
+
+  // private saveTodos(todos: Todo[]): void {
+  //   localStorage.setItem(this.storageKey, JSON.stringify(todos));
+  //   this.todosSubject.next(todos);
+  // }

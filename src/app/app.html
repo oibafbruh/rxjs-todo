@@ -3,16 +3,16 @@
                class="app-sidenav"
                position="end"
                
-               [mode]="isMobile ? 'over' : 'side'"
+               [mode]="(isMobile$ | async) ? 'over' : 'side'"
                
-               [opened]="!isMobile">
+               [opened]="!(isMobile$ | async)">
                
     <app-toolbar></app-toolbar>
   </mat-sidenav>
 
   <mat-sidenav-content class="app-content">
     
-    <app-header [isMobile]="isMobile" 
+    <app-header [isMobile]="isMobile$ | async" 
                 (menuToggle)="sidenav.toggle()">
     </app-header>
 

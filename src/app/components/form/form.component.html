@@ -1,9 +1,9 @@
 <form [formGroup]="todoForm" (ngSubmit)="onSave()">
+  <h1 mat-dialog-title>{{ formName }}</h1>
   
-  <h1 mat-dialog-title class="form-title">{{ formName }}</h1>
-
   <div mat-dialog-content>
-    <mat-form-field appearance="outline" class="form-name">
+    
+    <mat-form-field appearance="outline">
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" cdkFocusInitial>
       @if (todoForm.get('name')?.hasError('required')) {
@@ -19,11 +19,24 @@
         }
       </mat-select>
     </mat-form-field>
-  </div>
 
+    <mat-form-field appearance="outline">
+      <mat-label>Tags</mat-label>
+      <mat-select formControlName="tags" multiple>
+        @if (alleTags$ | async; as tags) {
+          @for (tag of tags; track tag.name) {
+            <mat-option [value]="tag.name">{{ tag.name }}</mat-option>
+          }
+        } @else {
+          <mat-option disabled>Lade Tags...</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+  </div>
+  
   <div mat-dialog-actions align="end">
     <button mat-button type="button" (click)="onCancel()">Abbrechen</button>
     <button mat-flat-button color="primary" type="submit" [disabled]="!todoForm.valid">Speichern</button>
   </div>
-  
 </form>

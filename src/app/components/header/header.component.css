@@ -13,7 +13,7 @@
 }
 
 .mat-mdc-icon-button {
-  padding: calc(5.5px);
+  padding: 5.5px;
 }
 
 mat-toolbar mat-icon {

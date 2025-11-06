@@ -6,8 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { initialState } from '../../services/todo.service';
 import { CommonModule } from '@angular/common';
@@ -17,9 +17,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { TodoService } from '../../services/todo.service';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from "@angular/material/tooltip";
-import { MatDividerModule } from '@angular/material/divider';
-import { MatChipsModule } from '@angular/material/chips';
-import { Tag } from '../../models/tag.model';
 
 @Component({
   selector: 'app-toolbar',
@@ -37,12 +34,10 @@ import { Tag } from '../../models/tag.model';
     MatDialogModule,
     MatAutocompleteModule,
     MatSidenavModule,
-    MatTooltipModule,
-    MatDividerModule,
-    MatChipsModule
+    MatTooltipModule
 ],
-  templateUrl: './sidenav.component.html',
-  styleUrls: ['./sidenav.component.css'],
+  templateUrl: './toolbar.component.html',
+  styleUrls: ['./toolbar.component.css'],
 })
 
 export class SideComponent implements OnInit, OnDestroy {
@@ -51,11 +46,9 @@ export class SideComponent implements OnInit, OnDestroy {
 
   private readonly todoService = inject(TodoService);
   filterForm: FormGroup;
-  tagForm: FormGroup;
   private formSub!: Subscription;
 
   priorityOptions = ['Alle', 'Niedrig', 'Mittel', 'Hoch'];
-  public alleTags$: Observable<Tag[]>;
 
   constructor() {
     this.filterForm = this.fb.group({
@@ -63,14 +56,6 @@ export class SideComponent implements OnInit, OnDestroy {
       status: initialState.status,
       priority: initialState.priority,
     });
-  
-
-  this.tagForm = this.fb.group({
-    name: ['', Validators.required],
-    color: ['#C7B37C']
-  });
-
-  this.alleTags$ = this.todoService.alleTags$;
   }
 
   ngOnInit(): void {
@@ -102,18 +87,5 @@ export class SideComponent implements OnInit, OnDestroy {
         this.todoService.addTodo(result);
       }
     });
-  }
-
-  onAddTag(): void {
-    if (this.tagForm.invalid) {
-      return;
-    }
-
-    this.todoService.addTag(this.tagForm.value);
-    this.tagForm.reset({name: '', color: '#C7B37F'});
-  }
-
-  onDeleteTag(tagName: string): void {
-    this.todoService.deleteTag(tagName);
   }
 }

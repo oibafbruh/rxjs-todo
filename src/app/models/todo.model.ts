@@ -3,4 +3,5 @@ export interface Todo {
   name: string;
   status: 'Aktiv' | 'Wartet' | 'Abgeschlossen';
   priority: 'Niedrig' | 'Mittel' | 'Hoch';
+  tags: string[];
 }

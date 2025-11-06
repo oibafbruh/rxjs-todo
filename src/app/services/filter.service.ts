@@ -27,7 +27,7 @@ export class FilterService {
         this.filters.next({ ...currentState, ...newFilters });
     }
 
-    resetFilters() {
-        this.filters.next(initialState);
-    }
+    // resetFilters() {
+    //     this.filters.next(initialState);
+    // }
 }

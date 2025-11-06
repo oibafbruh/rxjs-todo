@@ -4,15 +4,6 @@ form {
   flex-direction: column;
 }
 
-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background-color: #C7B37F;
-  color: #443135;
-}
-
 .form-name {
     margin-top: 8px;
 }

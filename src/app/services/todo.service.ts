@@ -2,7 +2,7 @@
   Dieser Service verwaltet jetzt nur noch den Status der Todos
   und holt sich die Anfangsdaten vom InitialService.
 */
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { BehaviorSubject, combineLatest, filter, from, map, Observable, switchMap, toArray } from 'rxjs';
 import { Todo } from '../models/todo.model';
 import { TodoDataService } from './todo-data.service';
@@ -23,6 +23,10 @@ export class TodoService {
 
   private readonly dataService = inject(TodoDataService);
   private readonly tagService = inject(TagService);
+
+  // public readonly filters = signal<TodoFilters>(initialState);
+  // public readonly alleTodos = signal<Todo[]>(this.dataService.get());
+  // public readonly alleTags = this.tagService.alleTags;
 
   private readonly filters = new BehaviorSubject<TodoFilters>(initialState);
   readonly filters$ = this.filters.asObservable();

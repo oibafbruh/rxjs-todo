@@ -65,7 +65,7 @@ export class SideComponent implements OnInit, OnDestroy {
 
   this.tagForm = this.fb.group({
     name: ['', Validators.required],
-    color: ['#00ff40ff']
+    color: ['#00ff40']
   });
 
   this.alleTags$ = this.todoService.alleTags$;

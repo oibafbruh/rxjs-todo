@@ -26,7 +26,7 @@
       <mat-chip-listbox aria label="Todo-Tags">
         @for (tagName of todo.tags; track tagName) {
           <mat-chip-option
-              disabled 
+              enabled 
               [style.background-color]="tagColorMap.get(tagName)"
               [style.color]="'white'">
             {{ tagName }}

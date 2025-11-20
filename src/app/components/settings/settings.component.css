@@ -8,17 +8,6 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: #C7B37F;
-  color: #443135;
-}
-
-.close {
-    color: #443135;
-}
-
-.close:hover {
-    color: #C7B37F;
-    background-color: grey;
 }
 
 mat-icon {

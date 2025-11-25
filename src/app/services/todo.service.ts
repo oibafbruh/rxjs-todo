@@ -1,9 +1,8 @@
 /*
-  Dieser Service verwaltet jetzt nur noch den Status der Todos
-  und holt sich die Anfangsdaten vom InitialService.
+  Dieser Service verwaltet den Status der Todos als Facade
+  und nutzt Angular Signals statt RxJS.
 */
-import { inject, Injectable, signal } from '@angular/core';
-import { BehaviorSubject, combineLatest, filter, from, map, Observable, switchMap, toArray } from 'rxjs';
+import { inject, Injectable, signal, computed } from '@angular/core';
 import { Todo } from '../models/todo.model';
 import { TodoDataService } from './todo-data.service';
 import { TodoFilters } from '../models/todo-filters.model';
@@ -26,90 +25,84 @@ export class TodoService {
 
   public readonly filters = signal<TodoFilters>(initialState);
   public readonly alleTodos = signal<Todo[]>(this.dataService.get());
-  public readonly alleTags = this.tagService.alleTags;
 
   public readonly alleTags = this.tagService.alleTags;
 
-  public readonly filteredTodos$: Observable<Todo[]> = combineLatest([
-            this.alleTodos$,
-            this.filters$
-        ]).pipe(
-            map(([todos, filters]) =>
-              todos.filter(todo => {
-                const searchMatch = todo.name.toLowerCase()
-                .includes(filters.search?.toLowerCase() ?? '');
-            
-               const statusMatch = filters.status === 'Alle' 
-                  || todo.status === filters.status;
-              
-               const priorityMatch = filters.priority === 'Alle' 
-                  || todo.priority === filters.priority;
+  public readonly filteredTodos = computed(() => {
+    const todos = this.alleTodos();
+    const activeFilters = this.filters();
 
-                return searchMatch && statusMatch && priorityMatch;
-              })
-            )
-        );
+    return todos.filter(todo => {
+      const searchMatch = todo.name.toLowerCase()
+        .includes(activeFilters.search?.toLowerCase() ?? '');
+    
+      const statusMatch = activeFilters.status === 'Alle' 
+          || todo.status === activeFilters.status;
       
-  public readonly doneTodos$: Observable<Todo[]> = this.alleTodos$.pipe(
-              map(todos => todos.filter(todo => todo.status === "Abgeschlossen"))
-  );
+      const priorityMatch = activeFilters.priority === 'Alle' 
+          || todo.priority === activeFilters.priority;
 
-  constructor() {
-        this.alleTodos.next(this.dataService.get());
-      }
-  
+      return searchMatch && statusMatch && priorityMatch;
+    });
+  });
+      
+  public readonly doneTodos = computed(() => {
+    const todos = this.alleTodos();
+    return todos.filter(todo => todo.status === "Abgeschlossen");
+  });
+
+  constructor() {}
+
   private getNewId(todos: Todo[]): number {
     return todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 1;
   }
 
   addTodo(newTodoData: Omit<Todo, 'id' | 'status'>) {
-    const currentTodos = this.alleTodos.getValue();
-
-    const newTodo: Todo = {
-      id: this.getNewId(currentTodos),
-      name: newTodoData.name,
-      status: "Wartet",
-      priority: newTodoData.priority,
-      tags: newTodoData.tags ||[]
-    };
-
-    this.dataService.add(newTodo);
-    this.alleTodos.next([...currentTodos, newTodo]);
+    this.alleTodos.update(todos => {
+      const newTodo: Todo = {
+        id: this.getNewId(todos),
+        name: newTodoData.name,
+        status: "Wartet",
+        priority: newTodoData.priority,
+        tags: newTodoData.tags || []
+      };
+      this.dataService.add(newTodo);
+      return [...todos, newTodo];
+    });
   }
 
   deleteTodo(id: number) {
-    this.dataService.delete(id);
-    const currentTodos = this.alleTodos.getValue();
-    const updatedTodos = currentTodos.filter(todo => todo.id !== id);
-    this.alleTodos.next(updatedTodos);
+    this.alleTodos.update(todos => {
+      this.dataService.delete(id);
+      return todos.filter(todo => todo.id !== id);
+    });
   }
 
   updateTodo(updatedTodo: Todo) {
-    const todoUpdate = { ...updatedTodo, tags: updatedTodo || [] };
-    this.dataService.update(updatedTodo);
-    const currentTodos = this.alleTodos.getValue();
-    const newTodos = currentTodos.map(t => t.id === updatedTodo.id ? updatedTodo : t);
-    this.alleTodos.next(newTodos);   
+    this.alleTodos.update(todos => {
+      const todoToUpdate = { ...updatedTodo, tags: updatedTodo.tags || [] };
+      this.dataService.update(todoToUpdate);
+      return todos.map(t => t.id === todoToUpdate.id ? todoToUpdate : t);
+    });
   }
 
   resetTodos(): void {
     this.dataService.reset();
     const initialData = this.dataService.get();
-    this.alleTodos.next(initialData);
-  }
-
-  addTag(newTag: Tag) {
-    this.tagService.addTag(newTag);
+    this.alleTodos.set(initialData);
   }
 
   clearTodos(): void {
     this.dataService.clear();
-    this.alleTodos.next([]);
+    this.alleTodos.set([]); 
   }
 
   updateFilters(newFilters: Partial<TodoFilters>) {
-      const currentState = this.filters.getValue();
-      this.filters.next({ ...currentState, ...newFilters });
+      this.filters.update(currentState => ({ ...currentState, ...newFilters }));
+  }
+
+  addTag(newTag: Tag) {
+    this.tagService.addTag(newTag);
   }
 
   deleteTag(tagName: string): void {

@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnDestroy, ViewChild, inject } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ViewChild, inject, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Subscription } from 'rxjs';
@@ -35,12 +35,11 @@ import { Tag } from '../../models/tag.model'
     { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }
   ]
 })
-export class TodoTableComponent implements OnDestroy, AfterViewInit {
+export class TodoTableComponent implements AfterViewInit {
   private dialog = inject(MatDialog);
 
   public dataSource = new MatTableDataSource<Todo>();
   public displayedColumns: string[] = ['id', 'name', 'status', 'priority', 'tags', 'actions'];
-  private dataSubscription: Subscription;
 
   private readonly todoService = inject(TodoService);
 
@@ -51,23 +50,19 @@ export class TodoTableComponent implements OnDestroy, AfterViewInit {
   public tagColorMap = new Map<string, string>();
 
   constructor() {
-    this.dataSubscription = this.todoService.filteredTodos$.subscribe(todos => {
+    effect(() => {
+      const todos = this.todoService.filteredTodos();
+      const tags = this.todoService.alleTags();
+
       this.dataSource.data = todos;
-    
-      this.todoService.alleTags$.subscribe(tags => {
-        this.tagColorMap = new Map(tags.map(tag => [tag.name, tag.color]));
+
+      this.tagColorMap = new Map(tags.map(tag => [tag.name, tag.color]));
       });
-    });
   }
+
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-  }
-
-  ngOnDestroy() {
-    if (this.dataSubscription) {
-      this.dataSubscription.unsubscribe();
-    }
   }
 
   onDelete(id: number): void {

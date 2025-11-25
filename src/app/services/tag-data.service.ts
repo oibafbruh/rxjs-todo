@@ -9,9 +9,10 @@ const storageKey = 'TodoTags';
 })
 export class TagDataService {
 
-  get(): Tag[] {
+  getTags(): Tag[] {
     const storageValue = localStorage.getItem(storageKey);
     let items: Tag[];
+
     if (!storageValue) {
       items = beispielTags;
       localStorage.setItem(storageKey, JSON.stringify(beispielTags));
@@ -22,13 +23,21 @@ export class TagDataService {
     return items;
   }
 
-  saveAll(tags: Tag[]): void {
+  saveTags(tags: Tag[]): void {
     localStorage.setItem(storageKey, JSON.stringify(tags));
   }
 
   delete(tagName: string): void {
-    const currentTags = this.get();
+    const currentTags = this.getTags();
     const updatedTags = currentTags.filter(tag => tag.name !== tagName);
-    this.saveAll(updatedTags);
+    this.saveTags(updatedTags);
+  }
+
+  clearTags(): void {
+    this.saveTags([]);
+  }
+
+  resetTags() {
+    this.saveTags(beispielTags);
   }
 }

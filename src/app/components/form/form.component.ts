@@ -35,10 +35,10 @@ export class TodoFormComponent {
   todoForm: FormGroup;
   priorityOptions = ['Niedrig', 'Mittel', 'Hoch'];
   formName: string;
-  public alleTags$: Observable<Tag[]>;
+  public alleTags = this.todoService.alleTags;
 
   constructor() {
-    this.alleTags$ = this.todoService.alleTags$;
+    this.alleTags = this.todoService.alleTags;
     this.formName = this.data ? 'Bearbeite Todo' : 'Neues Todo';
     this.todoForm = this.fb.group({
       name: [this.data?.name || '', Validators.required],

@@ -18,6 +18,6 @@ import { TodoService } from '../../services/todo.service';
 export class DoneComponent {
   
   todoService = inject(TodoService);
-  public doneTodos$ = this.todoService.doneTodos$;
+  public doneTodos = this.todoService.doneTodos;
   
 }

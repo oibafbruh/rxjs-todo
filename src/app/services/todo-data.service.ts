@@ -11,36 +11,34 @@ export class TodoDataService {
 
   get(): Todo[] {
     const storageValue = localStorage.getItem(storageKey);
-    let items: Todo[];
+    
     if (!storageValue) {
-      items = beispiele;
-      localStorage.setItem(storageKey, JSON.stringify(beispiele));
+      this.save(beispiele);
+      return beispiele;
     }
-    else {
-      items = JSON.parse(storageValue);
-    }
-    return items;
+    
+    return JSON.parse(storageValue);
   }
 
   add(newTodo: Todo): void {
     const currentTodos = this.get();
     const updatedTodos = [...currentTodos, newTodo];
-    localStorage.setItem(storageKey, JSON.stringify(updatedTodos));
-    console.log("data.service.ts: add(" + newTodo.id + ") ausgeführt");
+    this.save(updatedTodos);
+    console.log(`DataService: add(${newTodo.id}) ausgeführt`);
   }
 
   update(updatedTodo: Todo): void {
     const currentTodos = this.get();
-    const newValue = currentTodos.map(t => t.id === updatedTodo.id ? updatedTodo : t);
-    localStorage.setItem(storageKey, JSON.stringify(newValue));
-    console.log("data.service.ts: update(" + updatedTodo.id + ") ausgeführt");
+    const updatedTodos = currentTodos.map(t => t.id === updatedTodo.id ? updatedTodo : t);
+    this.save(updatedTodos);
+    console.log(`DataService: update(${updatedTodo.id}) ausgeführt`);
   }
 
   delete(id: number): void {
     const currentTodos = this.get();
     const updatedTodos = currentTodos.filter(todo => todo.id !== id);
-    localStorage.setItem(storageKey, JSON.stringify(updatedTodos));
-    console.log("data.service.ts: delete(" + id + ") ausgeführt")
+    this.save(updatedTodos);
+    console.log(`DataService: delete(${id}) ausgeführt`);
   }
 
   reset(): void {
@@ -48,20 +46,10 @@ export class TodoDataService {
   }
 
   clear(): void {
-    localStorage.setItem(storageKey, JSON.stringify([]));
+    this.save([]);
+  }
+
+  private save(todos: Todo[]): void {
+    localStorage.setItem(storageKey, JSON.stringify(todos));
   }
 }
-
-// private todosSubject = new BehaviorSubject<Todo[]>(this.get());
-// todos$ = this.todosSubject.asObservable();
-
-  // add(newTodo: Todo): void {
-  //   const updatedTodos = [...this.todosSubject.value, newTodo];
-  //   this.saveTodos(updatedTodos);
-  // }
-
-
-  // private saveTodos(todos: Todo[]): void {
-  //   localStorage.setItem(this.storageKey, JSON.stringify(todos));
-  //   this.todosSubject.next(todos);
-  // }

@@ -84,6 +84,13 @@ mat-icon {
   margin-top: 12px;
 }
 
+.tag-input-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+}
+
 /* Stile für das Formular zum Hinzufügen von Tags */
 .tag-form {
   display: flex;
@@ -105,12 +112,13 @@ mat-icon {
 /* Einfacher Stil für den nativen Farbwähler */
 .tag-color-picker {
   width: 30px;
-  height: 24px;
-  border: 1px solid #ccc;
+  height: 35px;
+  border: 1px solid #000000;
   padding: 0;
   cursor: pointer;
   overflow: hidden;
   align-items: center;
+  margin-top: 5px;
 }
 /* Versteckt den Standard-Rand des Color-Pickers */
 .tag-color-picker::-webkit-color-swatch-wrapper {

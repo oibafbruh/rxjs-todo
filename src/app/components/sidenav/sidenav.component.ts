@@ -20,6 +20,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
 import { Tag } from '../../models/tag.model';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 @Component({
   selector: 'app-sidenav',
@@ -54,7 +55,7 @@ export class SideComponent implements OnInit, OnDestroy {
   private formSub!: Subscription;
 
   priorityOptions = ['Alle', 'Niedrig', 'Mittel', 'Hoch'];
-  public alleTags$: Observable<Tag[]>;
+  public alleTags = this.todoService.alleTags;
 
   constructor() {
     this.filterForm = this.fb.group({
@@ -63,12 +64,27 @@ export class SideComponent implements OnInit, OnDestroy {
     });
   
 
-  this.tagForm = this.fb.group({
-    name: ['', Validators.required],
-    color: ['#00ff40']
-  });
+    this.tagForm = this.fb.group({
+      name: ['', [Validators.required,
+        this.duplicateTagValidator()]],
+      color: ['#00ff40']
+    });
+  }
 
-  this.alleTags$ = this.todoService.alleTags$;
+  private duplicateTagValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      if (!value) {
+        return null;
+      }
+
+      const currentTags = this.todoService.alleTags();
+      const tagNameNew = value.trim().toLowerCase();
+
+      const tagExists = currentTags.some(tag => tag.name.toLowerCase() === tagNameNew);
+
+      return tagExists ? { duplicate : true } : null;
+    }
   }
 
   ngOnInit(): void {

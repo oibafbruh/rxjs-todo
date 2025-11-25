@@ -1,4 +1,4 @@
-@if (doneTodos$ | async; as doneTodos) {
+@if (doneTodos().length > 0) {
 
   <mat-accordion class="done-accordion">
     
@@ -10,13 +10,13 @@
           Abgeschlossene Todos
         </mat-panel-title>
         <mat-panel-description>
-          {{ doneTodos.length }} erledigt
+          {{ doneTodos().length }} erledigt
         </mat-panel-description>
       </mat-expansion-panel-header>
       
       @if (doneTodos.length > 0) {
         <ul class="done-list">
-          @for (todo of doneTodos; track todo.id) {
+          @for (todo of doneTodos(); track todo.id) {
             <li>{{ todo.name }}</li> }
         </ul>
       } @else {

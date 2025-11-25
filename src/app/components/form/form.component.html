@@ -23,7 +23,7 @@
     <mat-form-field appearance="outline">
       <mat-label>Tags</mat-label>
       <mat-select formControlName="tags" multiple>
-        @if (alleTags$ | async; as tags) {
+        @if (alleTags(); as tags) {
           @for (tag of tags; track tag.name) {
             <mat-option [value]="tag.name">{{ tag.name }}</mat-option>
           }

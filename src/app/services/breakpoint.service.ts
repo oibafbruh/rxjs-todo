@@ -10,7 +10,7 @@ export class BreakpointService {
   private breakpointObserver = inject(BreakpointObserver);
 
   readonly isMobile$ = this.breakpointObserver.observe([
-    '(max-width: 900px)'
+    '(max-width: 1300px)'
   ]).pipe(
     map(result => result.matches),
     shareReplay(1)

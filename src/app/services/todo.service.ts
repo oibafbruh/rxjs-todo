@@ -24,16 +24,11 @@ export class TodoService {
   private readonly dataService = inject(TodoDataService);
   private readonly tagService = inject(TagService);
 
-  // public readonly filters = signal<TodoFilters>(initialState);
-  // public readonly alleTodos = signal<Todo[]>(this.dataService.get());
-  // public readonly alleTags = this.tagService.alleTags;
+  public readonly filters = signal<TodoFilters>(initialState);
+  public readonly alleTodos = signal<Todo[]>(this.dataService.get());
+  public readonly alleTags = this.tagService.alleTags;
 
-  private readonly filters = new BehaviorSubject<TodoFilters>(initialState);
-  readonly filters$ = this.filters.asObservable();
-
-  private readonly alleTodos = new BehaviorSubject<Todo[]>([]);
-  public readonly alleTodos$ = this.alleTodos.asObservable();
-  public readonly alleTags$ = this.tagService.alleTags$;
+  public readonly alleTags = this.tagService.alleTags;
 
   public readonly filteredTodos$: Observable<Todo[]> = combineLatest([
             this.alleTodos$,

@@ -9,36 +9,24 @@ import { TagDataService } from './tag-data.service';
 export class TagService {
   private readonly dataService = inject(TagDataService);
 
-  //public readonly alleTags = signal<Tag[]>(this.dataService.getTags());
-
-  private readonly alleTags = new BehaviorSubject<Tag[]>([]);
-  public readonly alleTags$ = this.alleTags.asObservable();
+  public readonly alleTags = signal<Tag[]>(this.dataService.getTags());
 
   constructor() {
     this.alleTags.next(this.dataService.get());
   }
 
   addTag(newTag: Tag) {
-    // this.alleTags.update(currentTags => {
-    //   const updatedTags = [...currentTags, newTag];
-    //   this.dataService.saveAll(updatedTags);
-    //   return updatedTags;
-    // });
-    const currentTags = this.alleTags.getValue();
-    const updatedTags = [...currentTags, newTag];
-    this.dataService.saveAll(updatedTags);
-    this.alleTags.next(updatedTags);
+     this.alleTags.update(currentTags => [...currentTags, newTag]); {
+       this.dataService.saveAll(updatedTags);
+       return updatedTags;
+    });
   }
 
   deleteTag(tagName: string): void {
-    // this.alleTags.update(currentTags => {
-    //   const updatedTags = currentTags.filter(tag => tag.name !== tagName);
-    //   this.dataService.saveTags(updatedTags);
-    //   return updatedTags;
-    // });
-    const currentTags = this.alleTags.getValue();
-    const updatedTags = currentTags.filter(tag => tag.name !== tagName);
-    this.dataService.saveAll(updatedTags);
-    this.alleTags.next(updatedTags);
+    this.alleTags.update(currentTags => {
+      const updatedTags = currentTags.filter(tag => tag.name !== tagName);
+      this.dataService.saveTags(updatedTags);
+      return updatedTags;
+    });
   }
 }

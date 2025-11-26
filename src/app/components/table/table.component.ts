@@ -1,7 +1,6 @@
-import { Component, AfterViewInit, OnDestroy, ViewChild, inject, effect } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, inject, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { Subscription } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
@@ -13,7 +12,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { CustomPaginatorIntl } from '../../helper/custom-paginator-intl';
 import { TodoService } from '../../services/todo.service';
-import { Tag } from '../../models/tag.model'
 
 @Component({
   selector: 'app-table',

@@ -1,11 +1,9 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { FloatLabelType, MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSelectModule } from '@angular/material/select';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -13,9 +11,7 @@ import { initialState } from '../../services/todo.service';
 import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TodoFormComponent } from '../form/form.component';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { TodoService } from '../../services/todo.service';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from "@angular/material/tooltip";
 
 @Component({

@@ -7,8 +7,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { Todo } from "../../models/todo.model"
-import { Observable } from 'rxjs';
-import { Tag } from '../../models/tag.model';
 import { TodoService } from '../../services/todo.service';
 
 @Component({

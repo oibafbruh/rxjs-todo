@@ -18,11 +18,6 @@ export class TagService {
     });
   }
 
-  resetTags() {
-    const sampleTags = this.dataService.getTags();
-    this.alleTags.set(sampleTags);
-  }
-
   deleteTag(tagName: string) {
     this.alleTags.update(tags => {
       const updatedTags = tags.filter(t => t.name !== tagName);

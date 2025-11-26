@@ -51,8 +51,6 @@ export class TodoService {
     return todos.filter(todo => todo.status === "Abgeschlossen");
   });
 
-  constructor() {}
-
   private getNewId(todos: Todo[]): number {
     return todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 1;
   }

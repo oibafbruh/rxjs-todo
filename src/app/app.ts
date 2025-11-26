@@ -1,10 +1,10 @@
-import { AfterViewInit, ChangeDetectorRef, Component, inject, OnDestroy, ViewChild } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HeaderComponent } from './components/header/header.component';
 import { SideComponent } from './components/sidenav/sidenav.component';
 import { TodoTableComponent } from './components/table/table.component';
 import { FooterComponent } from "./components/footer/footer.component";
 import { DoneComponent } from './components/done/done.component';
-import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { BreakpointService } from './services/breakpoint.service';
 import { AsyncPipe } from '@angular/common'
 import { ActionToolbarComponent } from "./components/toolbar/toolbar.component";
@@ -27,5 +27,5 @@ import { ActionToolbarComponent } from "./components/toolbar/toolbar.component";
 })
 export class App {
   private breakpointService = inject(BreakpointService);
-  isMobile$ = this.breakpointService.isMobile$;
+  isMobile = this.breakpointService.isMobile;
 }

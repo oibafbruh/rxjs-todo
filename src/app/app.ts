@@ -6,7 +6,6 @@ import { FooterComponent } from "./components/footer/footer.component";
 import { DoneComponent } from './components/done/done.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BreakpointService } from './services/breakpoint.service';
-import { AsyncPipe } from '@angular/common'
 import { ActionToolbarComponent } from "./components/toolbar/toolbar.component";
 
 @Component({

@@ -28,6 +28,7 @@ export class TodoService {
 
   public readonly alleTags = this.tagService.alleTags;
 
+  //computed funktion für filter
   public readonly filteredTodos = computed(() => {
     const todos = this.alleTodos();
     const activeFilters = this.filters();
@@ -45,7 +46,8 @@ export class TodoService {
       return searchMatch && statusMatch && priorityMatch;
     });
   });
-      
+    
+  //computed funktion für abgeschlossene todos
   public readonly doneTodos = computed(() => {
     const todos = this.alleTodos();
     return todos.filter(todo => todo.status === "Abgeschlossen");

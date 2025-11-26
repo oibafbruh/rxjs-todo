@@ -34,25 +34,22 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 export class ActionToolbarComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private dialog = inject(MatDialog);
-  private readonly todoService = inject(TodoService); // Dein Facade
+  private readonly todoService = inject(TodoService);
 
   searchForm: FormGroup;
   private formSub!: Subscription;
 
   constructor() {
-    // Dieses Formular steuert NUR noch das Suchfeld
     this.searchForm = this.fb.group({
       search: [initialState.search]
     });
   }
 
   ngOnInit(): void {
-    // Diese Subscription sendet NUR Such-Updates
     this.formSub = this.searchForm.get('search')!.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged()
     ).subscribe(searchValue => {
-      // Wir rufen updateFilters nur mit dem 'search'-Teil auf
       this.todoService.updateFilters({ search: searchValue });
     });
   }
@@ -63,7 +60,7 @@ export class ActionToolbarComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Diese Methode ist von der Sidenav hierher umgezogen
+
   openAddTodoDialog() {
     const dialogRef = this.dialog.open(TodoFormComponent, {
       width: '400px',

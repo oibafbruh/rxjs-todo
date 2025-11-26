@@ -19,7 +19,6 @@ import { ActionToolbarComponent } from "./components/toolbar/toolbar.component";
     FooterComponent,
     DoneComponent,
     MatSidenavModule,
-    AsyncPipe,
     ActionToolbarComponent
 ],
   templateUrl: './app.html',

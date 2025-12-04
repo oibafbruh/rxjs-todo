@@ -18,6 +18,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
+import { Tag } from '../../models/tag.model';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 @Component({
@@ -79,7 +80,7 @@ export class SideComponent implements OnInit, OnDestroy {
       const currentTags = this.todoService.alleTags();
       const tagNameNew = value.trim().toLowerCase();
 
-      const tagExists = currentTags.some(tag => tag.name.toLowerCase() === tagNameNew);
+      const tagExists = currentTags.some((tag: Tag) => tag.name.toLowerCase() === tagNameNew);
 
       return tagExists ? { duplicate : true } : null;
     }

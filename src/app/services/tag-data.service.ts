@@ -1,43 +1,45 @@
 import { Injectable } from '@angular/core';
-import { Tag } from '../models/tag.model'; 
+import { Tag } from '../models/tag.model';
 import { beispielTags } from '../providers/sample-tags';
 
 const storageKey = 'TodoTags';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TagDataService {
-
-  getTags(): Tag[] {
+  get(): Tag[] {
     const storageValue = localStorage.getItem(storageKey);
-    let items: Tag[];
 
     if (!storageValue) {
-      items = beispielTags;
-      localStorage.setItem(storageKey, JSON.stringify(beispielTags));
+      this.save(beispielTags);
+      return beispielTags;
     }
-    else {
-      items = JSON.parse(storageValue);
-    }
-    return items;
+
+    return JSON.parse(storageValue);
   }
 
-  saveTags(tags: Tag[]): void {
-    localStorage.setItem(storageKey, JSON.stringify(tags));
+  add(newTag: Tag): void {
+    const currentTags = this.get();
+    const updatedTags = [...currentTags, newTag];
+    this.save(updatedTags);
   }
 
   delete(tagName: string): void {
-    const currentTags = this.getTags();
-    const updatedTags = currentTags.filter(tag => tag.name !== tagName);
-    this.saveTags(updatedTags);
+    const currentTags = this.get();
+    const updatedTags = currentTags.filter((tag) => tag.name !== tagName);
+    this.save(updatedTags);
   }
 
-  clearTags(): void {
-    this.saveTags([]);
+  clear(): void {
+    this.save([]);
   }
 
-  resetTags() {
-    this.saveTags(beispielTags);
+  reset(): void {
+    localStorage.removeItem(storageKey);
+  }
+
+  private save(tags: Tag[]): void {
+    localStorage.setItem(storageKey, JSON.stringify(tags));
   }
 }

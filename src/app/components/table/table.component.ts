@@ -12,6 +12,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { CustomPaginatorIntl } from '../../helper/custom-paginator-intl';
 import { TodoService } from '../../services/todo.service';
+import { Tag } from '../../models/tag.model';
 
 @Component({
   selector: 'app-table',
@@ -54,7 +55,7 @@ export class TodoTableComponent implements AfterViewInit {
 
       this.dataSource.data = todos;
 
-      this.tagColorMap = new Map(tags.map(tag => [tag.name, tag.color]));
+      this.tagColorMap = new Map(tags.map((tag: Tag) => [tag.name, tag.color]));
       });
   }
 

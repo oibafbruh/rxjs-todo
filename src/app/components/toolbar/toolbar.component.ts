@@ -60,7 +60,6 @@ export class ActionToolbarComponent implements OnInit, OnDestroy {
     }
   }
 
-
   openAddTodoDialog() {
     const dialogRef = this.dialog.open(TodoFormComponent, {
       width: '400px',

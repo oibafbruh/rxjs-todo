@@ -11,12 +11,10 @@ export class TagService {
   public readonly alleTags = signal<Tag[]>(this.dataService.getTags());
 
   addTag(newTag: Tag) {
-    this.alleTags.update(tags => {
-      const updatedTags = [...tags, newTag];
-      this.dataService.saveTags(updatedTags);
-      return updatedTags;
-    });
-  }
+    const updatedTags = [...this.alleTags(), newTag];
+    this.dataService.saveTags(updatedTags);
+    this.alleTags.update(() => updatedTags);
+    }
 
   deleteTag(tagName: string) {
     this.alleTags.update(tags => {

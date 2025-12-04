@@ -32,16 +32,15 @@ export class TodoService {
   public readonly filteredTodos = computed(() => {
     const todos = this.alleTodos();
     const activeFilters = this.filters();
+    const searchFilter = activeFilters.search?.toLowerCase() ?? '';
 
     return todos.filter(todo => {
       const searchMatch = todo.name.toLowerCase()
-        .includes(activeFilters.search?.toLowerCase() ?? '');
+        .includes(searchFilter);
     
-      const statusMatch = activeFilters.status === 'Alle' 
-          || todo.status === activeFilters.status;
+      const statusMatch = activeFilters.status === 'Alle' || todo.status === activeFilters.status;
       
-      const priorityMatch = activeFilters.priority === 'Alle' 
-          || todo.priority === activeFilters.priority;
+      const priorityMatch = activeFilters.priority === 'Alle' || todo.priority === activeFilters.priority;
 
       return searchMatch && statusMatch && priorityMatch;
     });
@@ -53,35 +52,38 @@ export class TodoService {
     return todos.filter(todo => todo.status === "Abgeschlossen");
   });
 
-  private getNewId(todos: Todo[]): number {
+  private getNewId(): number {
+    const todos = this.alleTodos();
     return todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 1;
   }
 
-  addTodo(newTodoData: Omit<Todo, 'id' | 'status'>) {
-    this.alleTodos.update(todos => {
-      const newTodo: Todo = {
-        id: this.getNewId(todos),
+  addTodo(newTodoData: Todo) {
+    const newTodo: Todo = {
+        id: this.getNewId(),
         name: newTodoData.name,
         status: "Wartet",
         priority: newTodoData.priority,
         tags: newTodoData.tags || []
       };
-      this.dataService.add(newTodo);
+
+    this.dataService.add(newTodo);
+    this.alleTodos.update(todos => {
       return [...todos, newTodo];
     });
   }
 
   deleteTodo(id: number) {
+    this.dataService.delete(id);
     this.alleTodos.update(todos => {
-      this.dataService.delete(id);
       return todos.filter(todo => todo.id !== id);
     });
   }
 
   updateTodo(updatedTodo: Todo) {
+    const todoToUpdate = { ...updatedTodo, tags: updatedTodo.tags || [] };
+    this.dataService.update(todoToUpdate);
+
     this.alleTodos.update(todos => {
-      const todoToUpdate = { ...updatedTodo, tags: updatedTodo.tags || [] };
-      this.dataService.update(todoToUpdate);
       return todos.map(t => t.id === todoToUpdate.id ? todoToUpdate : t);
     });
   }

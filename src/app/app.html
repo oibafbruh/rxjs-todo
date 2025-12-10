@@ -1,28 +1,35 @@
-<mat-sidenav-container class="app-container" autosize>
-  <mat-sidenav #sidenav 
-               class="app-sidenav"
-               position="end"
-               
-               [mode]="isMobile() ? 'over' : 'side'"
-               
-               [opened]="!isMobile()">
-               
-    <app-sidenav></app-sidenav>
-  </mat-sidenav>
+<div class="app-wrapper">
+  @if (isLoading()) {
+    <div class="loading-overlay">
+      <mat-spinner></mat-spinner>
+    </div>
+  }
+  <mat-sidenav-container class="app-container" autosize>
+    <mat-sidenav #sidenav 
+                 class="app-sidenav"
+                 position="end"
+                 
+                 [mode]="isMobile() ? 'over' : 'side'"
+                 
+                 [opened]="!isMobile()">
+                 
+      <app-sidenav></app-sidenav>
+    </mat-sidenav>
 
-  <mat-sidenav-content class="app-content">
-    
-    <app-header [isMobile]="isMobile()" 
-                (menuToggle)="sidenav.toggle()">
-    </app-header>
+    <mat-sidenav-content class="app-content">
+      
+      <app-header [isMobile]="isMobile()" 
+                  (menuToggle)="sidenav.toggle()">
+      </app-header>
 
-    <app-toolbar></app-toolbar>
+      <app-toolbar></app-toolbar>
 
-    <main class="content">
-      <app-table></app-table>
-      <app-done></app-done>
-    </main>
-    <app-footer></app-footer>
-  </mat-sidenav-content>
+      <main class="content">
+        <app-table></app-table>
+        <app-done></app-done>
+      </main>
+      <app-footer></app-footer>
+    </mat-sidenav-content>
 
-</mat-sidenav-container>
+  </mat-sidenav-container>
+</div>

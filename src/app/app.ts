@@ -6,8 +6,9 @@ import { FooterComponent } from "./components/footer/footer.component";
 import { DoneComponent } from './components/done/done.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { BreakpointService } from './services/breakpoint.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActionToolbarComponent } from "./components/toolbar/toolbar.component";
+import { AppStore } from './store/app.store';
 
 @Component({
   selector: 'app-root',
@@ -20,12 +21,14 @@ import { ActionToolbarComponent } from "./components/toolbar/toolbar.component";
     DoneComponent,
     MatSidenavModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule,
     ActionToolbarComponent
 ],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
-  private breakpointService = inject(BreakpointService);
-  isMobile = this.breakpointService.isMobile;
+  AppStore = inject(AppStore);
+  isMobile = this.AppStore.isMobile;
+  isLoading = this.AppStore.loading;
 }

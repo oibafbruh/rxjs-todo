@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
-import { TodoService } from '../../services/todo.service';
+import { TodoStore } from '../../store/todo.store';
 
 @Component({
   selector: 'app-done',
@@ -17,7 +17,7 @@ import { TodoService } from '../../services/todo.service';
 })
 export class DoneComponent {
   
-  todoService = inject(TodoService);
-  public doneTodos = this.todoService.doneTodos;
+  todoStore = inject(TodoStore);
+  public doneTodos = this.todoStore.doneTodos;
   
 }

@@ -1,9 +1,10 @@
 import { computed, inject } from '@angular/core';
-import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
+import { patchState, signalStore, withComputed, withMethods, withProps, withState } from '@ngrx/signals';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Todo } from '../models/todo.model';
 import { TodoFilters } from '../models/todo-filters.model';
 import { TodoDataService } from '../services/todo-data.service';
+import { AppStore } from './app.store';
 
 type TodoState = {
   todos: Todo[];
@@ -21,7 +22,15 @@ const initialState: TodoState = {
 
 export const TodoStore = signalStore(
   { providedIn: 'root' },
+
   withState(initialState),
+
+  withProps(() => ({
+    _todoDataService: inject(TodoDataService),
+    _snackBar: inject(MatSnackBar),
+    _appStore: inject(AppStore),
+  })),
+
   withComputed((store) => ({
     filteredTodos: computed(() => {
       const todos = store.todos();
@@ -38,26 +47,31 @@ export const TodoStore = signalStore(
     doneTodos: computed(() => {
       return store.todos().filter((todo) => todo.status === 'Abgeschlossen');
     }),
-  })), withMethods((store, dataService = inject(TodoDataService), snackBar = inject(MatSnackBar)) => ({
-    _handleError(message: string) {
-      patchState(store, { error: message, loading: false });
-      snackBar.open(message, 'Schließen', { duration: 3000 });
+  })), 
+
+  withMethods(({ _todoDataService, _appStore, ...store }) => {
+    const _handleError = (message: string) => {
+      patchState(store, { error: message });
+      console.error(message);
+      _appStore.showSnackbar(message);
+    };
+
+    return {
+    loadTodos() {
+      _appStore.setLoading(true);
+      _todoDataService.get().then(todos => {
+        patchState(store, { todos, error: null })
+      }).catch(err => {
+        _handleError('Fehler beim Laden der Todos: ' + err);
+      }).finally(() => {
+        _appStore.setLoading(false);
+      });
     },
 
-    async loadTodos() {
-      patchState(store, { loading: true });
-      try {
-        const todos = await dataService.get();
-        patchState(store, { todos, loading: false, error: null });
-      } catch (err) {
-        this._handleError('Fehler beim Laden der Todos');
-      }
-    },
+    addTodo(newTodoData: Omit<Todo, 'id' | 'status'>) {
+      _appStore.setLoading(true);
 
-    async addTodo(newTodoData: Omit<Todo, 'id' | 'status'>) {
-      patchState(store, { loading: true });
-      try {
-        const currentTodos = store.todos();
+        const currentTodos = store.todos()
         const newId = currentTodos.length > 0 ? Math.max(...currentTodos.map(t => t.id)) + 1 : 1;
         
         const newTodo: Todo = {
@@ -67,52 +81,79 @@ export const TodoStore = signalStore(
           tags: newTodoData.tags || []
         };
 
-        await dataService.add(newTodo);
-        
-        patchState(store, (state) => ({
-          todos: [...state.todos, newTodo],
-          loading: false,
-          error: null
-        }));
-      } catch (err) {
-        this._handleError('Fehler beim Hinzufügen des Todos');
-      }
-    },
+        _todoDataService.add(newTodo).then(() => {
+          patchState(store, (state) => ({
+            todos: [...state.todos, newTodo],
+            error: null
+          }));
+        }).catch(err => {
+            _handleError('Fehler beim Hinzufügen des Todos: ' + err);
+          })
+          .finally(() => {
+            _appStore.setLoading(false);
+          })
+      },
 
-    async deleteTodo(id: number) {
-      patchState(store, { loading: true });
-      try {
-        await dataService.delete(id);
+    deleteTodo(id: number) {
+      _appStore.setLoading(true);
+      _todoDataService.delete(id).then(() => {
         patchState(store, (state) => ({
           todos: state.todos.filter((t) => t.id !== id),
           loading: false,
           error: null
-        }));
-      } catch (err) {
-        this._handleError('Fehler beim Löschen des Todos');
-      }
+      }));
+      }).catch((err) => {
+        _handleError('Fehler beim Löschen des Todos: ' + err);
+      })
+      .finally(() => {
+        _appStore.setLoading(false);
+      })
     },
 
-    async updateTodo(updatedTodo: Todo) {
-      patchState(store, { loading: true });
-      try {
+    updateTodo(updatedTodo: Todo) {
+      _appStore.setLoading(true);
         const todoToUpdate = { ...updatedTodo, tags: updatedTodo.tags || [] };
-        await dataService.update(todoToUpdate);
-        
-        patchState(store, (state) => ({
+        _todoDataService.update(todoToUpdate).then(() => {
+          patchState(store, (state) => ({
           todos: state.todos.map((t) => t.id === todoToUpdate.id ? todoToUpdate : t),
           loading: false,
           error: null
         }));
-      } catch (err) {
-        this._handleError('Fehler beim Aktualisieren des Todos');
-      }
-    },
-
+        }).catch((err) => {
+          _handleError('Fehler beim Aktualisieren des Todos: ' + err);
+        }).finally(() => {
+          _appStore.setLoading(false);
+        });
+      },
+    
     updateFilters(newFilters: Partial<TodoFilters>) {
       patchState(store, (state) => ({
         filters: { ...state.filters, ...newFilters }
       }));
     },
-  }))
-);
+
+    resetTodos(): void {
+    _appStore.setLoading(true);
+    _todoDataService.reset().then(() => {
+      return _todoDataService.get();
+    }).then((todos) => {
+      patchState(store, { todos, error: null});
+    }).catch((error) => {
+      _handleError('Fehler beim Zurücksetzen der Todos: ' + error);
+    }).finally(() => {
+      _appStore.setLoading(false);
+    });
+    },
+
+  clearTodos(): void {
+    _appStore.setLoading(true);
+    _todoDataService.clear().then(() => {
+      patchState(store, { todos: [] });
+    }).catch((error) => {
+      _handleError('Fehler beim Leeren der Todos: ' + error);
+    }).finally(() => {
+      _appStore.setLoading(false);
+    });
+  }};
+  })
+);  

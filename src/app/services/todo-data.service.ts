@@ -10,6 +10,8 @@ const storageKey = 'TodoItems';
 export class TodoDataService {
 
   async get(): Promise<Todo[]> {
+    console.log("Absichtliches delay in get()");
+    await new Promise(resolve => setTimeout(resolve, 500));
     const storageValue = localStorage.getItem(storageKey);
     
     if (!storageValue) {
@@ -21,6 +23,10 @@ export class TodoDataService {
   }
 
   async add(newTodo: Todo): Promise<void> {
+    // throw new Error('Hallo');
+
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
     const currentTodos = await this.get();
     const updatedTodos = [...currentTodos, newTodo];
     this.saveInternal(updatedTodos);

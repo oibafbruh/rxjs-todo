@@ -9,17 +9,17 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { initialState } from '../../services/todo.service';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { TodoService } from '../../services/todo.service';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
 import { Tag } from '../../models/tag.model';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { TodoStore } from '../../store/todo.store';
+import { TagService } from '../../services/tag.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -48,25 +48,25 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 export class SideComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
 
-  private readonly todoService = inject(TodoService);
+  private readonly todoService = inject(TodoStore);
+  private readonly tagService = inject(TagService);
   filterForm: FormGroup;
   tagForm: FormGroup;
   private formSub!: Subscription;
 
   priorityOptions = ['Alle', 'Niedrig', 'Mittel', 'Hoch'];
-  public alleTags = this.todoService.alleTags;
+  public alleTags = this.tagService.alleTags;
 
   constructor() {
     this.filterForm = this.fb.group({
-      status: initialState.status,
-      priority: initialState.priority,
+      status: 'Alle',
+      priority: 'Alle',
     });
   
-
     this.tagForm = this.fb.group({
       name: ['', [Validators.required,
         this.duplicateTagValidator()]],
-      color: ['#00ff40']
+      color: ['#ef689e']
     });
   }
 
@@ -77,7 +77,7 @@ export class SideComponent implements OnInit, OnDestroy {
         return null;
       }
 
-      const currentTags = this.todoService.alleTags();
+      const currentTags = this.tagService.alleTags();
       const tagNameNew = value.trim().toLowerCase();
 
       const tagExists = currentTags.some((tag: Tag) => tag.name.toLowerCase() === tagNameNew);
@@ -102,7 +102,10 @@ export class SideComponent implements OnInit, OnDestroy {
   }
 
   reset() {
-    this.filterForm.patchValue(initialState);
+    this.filterForm.patchValue({
+      status: 'Alle',
+      priority: 'Alle'
+    });
   }
 
   onAddTag(): void {
@@ -110,11 +113,11 @@ export class SideComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.todoService.addTag(this.tagForm.value);
+    this.tagService.addTag(this.tagForm.value);
     this.tagForm.reset({name: '', color: '#009826ff'});
   }
 
   onDeleteTag(tagName: string): void {
-    this.todoService.deleteTag(tagName);
+    this.tagService.deleteTag(tagName);
   }
 }

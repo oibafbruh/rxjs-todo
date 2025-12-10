@@ -5,10 +5,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { TodoService } from '../../services/todo.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TagService } from '../../services/tag.service';
+import { TodoStore } from '../../store/todo.store';
 
 
 @Component({
@@ -28,7 +28,7 @@ import { TagService } from '../../services/tag.service';
 })
 export class SettingsComponent { 
     public dialogRef = inject(MatDialogRef<SettingsComponent>);
-    private todoService = inject(TodoService);
+    private todoService = inject(TodoStore);
     private tagService = inject(TagService);
 
     onClearStorage(): void {

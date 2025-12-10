@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Todo } from '../models/todo.model'; 
+import { Todo } from '../models/todo.model';
 import { beispiele } from '../providers/sample-todos';
 
 const storageKey = 'TodoItems';
@@ -9,47 +9,44 @@ const storageKey = 'TodoItems';
 })
 export class TodoDataService {
 
-  get(): Todo[] {
+  async get(): Promise<Todo[]> {
     const storageValue = localStorage.getItem(storageKey);
     
     if (!storageValue) {
-      this.save(beispiele);
+      this.saveInternal(beispiele);
       return beispiele;
     }
     
     return JSON.parse(storageValue);
   }
 
-  add(newTodo: Todo): void {
-    const currentTodos = this.get();
+  async add(newTodo: Todo): Promise<void> {
+    const currentTodos = await this.get();
     const updatedTodos = [...currentTodos, newTodo];
-    this.save(updatedTodos);
-    console.log(`DataService: add(${newTodo.id}) ausgeführt`);
+    this.saveInternal(updatedTodos);
   }
 
-  update(updatedTodo: Todo): void {
-    const currentTodos = this.get();
+  async update(updatedTodo: Todo): Promise<void> {
+    const currentTodos = await this.get();
     const updatedTodos = currentTodos.map(t => t.id === updatedTodo.id ? updatedTodo : t);
-    this.save(updatedTodos);
-    console.log(`DataService: update(${updatedTodo.id}) ausgeführt`);
+    this.saveInternal(updatedTodos);
   }
 
-  delete(id: number): void {
-    const currentTodos = this.get();
+  async delete(id: number): Promise<void> {
+    const currentTodos = await this.get();
     const updatedTodos = currentTodos.filter(todo => todo.id !== id);
-    this.save(updatedTodos);
-    console.log(`DataService: delete(${id}) ausgeführt`);
+    this.saveInternal(updatedTodos);
   }
 
-  reset(): void {
+  async reset(): Promise<void> {
     localStorage.removeItem(storageKey);
   }
 
-  clear(): void {
-    this.save([]);
+  async clear(): Promise<void> {
+    this.saveInternal([]);
   }
 
-  private save(todos: Todo[]): void {
+  private saveInternal(todos: Todo[]): void {
     localStorage.setItem(storageKey, JSON.stringify(todos));
   }
 }

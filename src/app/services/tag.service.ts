@@ -3,18 +3,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Tag } from '../models/tag.model';
 import { TagDataService } from './tag-data.service';
 
-export interface TagState {
-  tags: Tag[];
-  loading: boolean;
-  error: string | null;
-}
-
-const initialState: TagState = {
-  tags: [],
-  loading: false,
-  error: null,
-};
-
 @Injectable({
   providedIn: 'root'
 })
@@ -23,7 +11,7 @@ export class TagService {
   private readonly snackBar = inject(MatSnackBar);
 
   public readonly alleTags = signal<Tag[]>(this.dataService.get());
-  public readonly loading = signal<boolean>(false);
+  public loading = signal<boolean>(false);
   public readonly error = signal<string | null>(null);
 
   loadTags(): void {
@@ -34,10 +22,7 @@ export class TagService {
       this.error.set(null);
     } catch (error) {
       console.error('Fehler beim Laden der Tags', error);
-      this.error.set('Fehler beim Laden der Tags');
-      this.snackBar.open('Fehler beim Laden der Tags', 'Schließen', {
-        duration: 3000,
-      });
+      this.handleError('Fehler bei loadTag');
     } finally {
       this.loading.set(false);
     }
@@ -51,10 +36,7 @@ export class TagService {
       this.error.set(null);
     } catch (error) {
       console.error('Fehler beim Hinzufügen eines Tags', error);
-      this.error.set('Fehler beim Hinzufügen eines Tags');
-      this.snackBar.open('Fehler beim Hinzufügen eines Tags', 'Schließen', {
-        duration: 3000,
-      });
+      this.handleError('Fehler bei addTag');
     } finally {
       this.loading.set(false);
     }
@@ -70,10 +52,7 @@ export class TagService {
       this.error.set(null);
     } catch (error) {
       console.error('Fehler beim Löschen eines Tags', error);
-      this.error.set('Fehler beim Löschen eines Tags');
-      this.snackBar.open('Fehler beim Löschen eines Tags', 'Schließen', {
-        duration: 3000,
-      });
+      this.handleError('Fehler bei deleteTag');
     } finally {
       this.loading.set(false);
     }
@@ -88,10 +67,7 @@ export class TagService {
       this.error.set(null);
     } catch (error) {
       console.error('Fehler beim Zurücksetzen der Tags', error);
-      this.error.set('Fehler beim Zurücksetzen der Tags');
-      this.snackBar.open('Fehler beim Zurücksetzen der Tags', 'Schließen', {
-        duration: 3000,
-      });
+      this.handleError('Fehler bei resetTags');
     } finally {
       this.loading.set(false);
     }
@@ -105,12 +81,16 @@ export class TagService {
       this.error.set(null);
     } catch (error) {
       console.error('Fehler beim Leeren der Tags', error);
-      this.error.set('Fehler beim Leeren der Tags');
-      this.snackBar.open('Fehler beim Leeren der Tags', 'Schließen', {
-        duration: 3000,
-      });
+      this.handleError('Fehler bei clearTags');
     } finally {
       this.loading.set(false);
     }
+  }
+
+  private handleError(message: string) {
+    this.error.set(message);
+    this.snackBar.open(message, 'Schließen', {
+      duration: 3000,
+    });
   }
 }

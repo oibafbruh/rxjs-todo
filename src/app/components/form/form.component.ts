@@ -47,7 +47,10 @@ export class TodoFormComponent {
 
   onSave(): void {
     if (this.todoForm.valid) {
-      this.dialogRef.close({...this.data, ...this.todoForm.value });
+      const result = this.data 
+        ? { ...this.data, ...this.todoForm.value }
+        : this.todoForm.value;
+      this.dialogRef.close(result);
     }
   }
 

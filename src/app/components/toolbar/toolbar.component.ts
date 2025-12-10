@@ -7,11 +7,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { initialState } from '../../services/todo.service';
 import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TodoFormComponent } from '../form/form.component';
-import { TodoService } from '../../services/todo.service';
+import { TodoStore } from '../../store/todo.store';
 import { MatTooltipModule } from "@angular/material/tooltip";
 
 @Component({
@@ -34,14 +33,14 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 export class ActionToolbarComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private dialog = inject(MatDialog);
-  private readonly todoService = inject(TodoService);
+  private readonly todoStore = inject(TodoStore);
 
   searchForm: FormGroup;
   private formSub!: Subscription;
 
   constructor() {
     this.searchForm = this.fb.group({
-      search: [initialState.search]
+      search: ['']
     });
   }
 
@@ -50,7 +49,7 @@ export class ActionToolbarComponent implements OnInit, OnDestroy {
       debounceTime(300),
       distinctUntilChanged()
     ).subscribe(searchValue => {
-      this.todoService.updateFilters({ search: searchValue });
+      this.todoStore.updateFilters({ search: searchValue });
     });
   }
 
@@ -67,7 +66,7 @@ export class ActionToolbarComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.todoService.addTodo(result);
+        this.todoStore.addTodo(result);
       }
     });
   }

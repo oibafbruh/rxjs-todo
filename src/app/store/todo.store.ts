@@ -6,7 +6,7 @@ import { TodoFilters } from '../models/todo-filters.model';
 import { TodoDataService } from '../services/todo-data.service';
 import { AppStore } from './app.store';
 
-type TodoState = {
+interface TodoState {
   todos: Todo[];
   filters: TodoFilters;
   loading: boolean;

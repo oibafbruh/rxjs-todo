@@ -1,14 +1,11 @@
-import { computed, inject } from '@angular/core';
-import { patchState, signalStore, withComputed, withMethods, withProps, withState } from '@ngrx/signals';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Todo } from '../models/todo.model';
-import { TodoFilters } from '../models/todo-filters.model';
-import { TodoDataService } from '../services/todo-data.service';
+import { inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { patchState, signalStore, withMethods, withProps, withState } from '@ngrx/signals';
 import { map } from 'rxjs';
-import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 
-type AppState = {
+interface AppState {
   loading: boolean;
 };
 

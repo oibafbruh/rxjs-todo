@@ -123,7 +123,7 @@ export const TodoStore = signalStore(
           _handleError('Fehler beim Aktualisieren des Todos: ' + err);
         }).finally(() => {
           _appStore.setLoading(false);
-        });
+        })
       },
     
     updateFilters(newFilters: Partial<TodoFilters>) {

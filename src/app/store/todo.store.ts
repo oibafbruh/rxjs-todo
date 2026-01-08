@@ -86,6 +86,7 @@ export const TodoStore = signalStore(
             todos: [...state.todos, newTodo],
             error: null
           }));
+          _appStore.showSnackbar("Add Todo erfolgreich.");
         }).catch(err => {
             _handleError('Fehler beim Hinzufügen des Todos: ' + err);
           })

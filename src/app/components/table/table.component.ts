@@ -13,7 +13,7 @@ import { CustomPaginatorIntl } from '../../helper/custom-paginator-intl';
 import { Todo } from "../../models/todo.model";
 import { Tag } from '../../models/tag.model';
 import { TodoStore } from '../../store/todo.store';
-import { TagService } from '../../services/tag.service';
+import { TagStore } from '../../store/tag.store';
 
 @Component({
   selector: 'app-table',
@@ -40,7 +40,7 @@ export class TodoTableComponent implements OnInit, AfterViewInit {
   private readonly dialog = inject(MatDialog);
 
   public readonly todoStore = inject(TodoStore); 
-  public readonly tagService = inject(TagService);
+  public readonly tagStore = inject(TagStore);
 
   public dataSource = new MatTableDataSource<Todo>();
   public displayedColumns: string[] = ['id', 'name', 'status', 'priority', 'tags', 'actions'];
@@ -52,7 +52,7 @@ export class TodoTableComponent implements OnInit, AfterViewInit {
   constructor() {
     effect(() => {
       const todos = this.todoStore.filteredTodos(); 
-      const tags = this.tagService.alleTags();
+      const tags = this.tagStore.tags();
 
       this.dataSource.data = todos;
       this.tagColorMap = new Map(tags.map((tag: Tag) => [tag.name, tag.color]));
@@ -61,8 +61,8 @@ export class TodoTableComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.todoStore.loadTodos();
-    if (this.tagService.alleTags().length === 0) {
-        this.tagService.loadTags();
+    if (this.tagStore.tags().length === 0) {
+        this.tagStore.loadTags();
     }
   }
 

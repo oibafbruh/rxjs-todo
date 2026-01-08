@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { TagService } from '../../services/tag.service';
+import { TagStore } from '../../store/tag.store';
 import { TodoStore } from '../../store/todo.store';
 
 
@@ -29,17 +29,17 @@ import { TodoStore } from '../../store/todo.store';
 export class SettingsComponent { 
     public dialogRef = inject(MatDialogRef<SettingsComponent>);
     private todoService = inject(TodoStore);
-    private tagService = inject(TagService);
+    private tagStore = inject(TagStore);
 
     onClearStorage(): void {
         this.todoService.clearTodos();
-        this.tagService.clearTags();
+        this.tagStore.clearTags();
         this.dialogRef.close();
     }
 
     onResetStorage(): void {
         this.todoService.resetTodos();
-        this.tagService.resetTags();
+        this.tagStore.resetTags();
         this.dialogRef.close();
     }
 

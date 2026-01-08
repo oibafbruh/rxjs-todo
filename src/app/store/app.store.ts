@@ -36,9 +36,9 @@ export const AppStore = signalStore(
         setLoading(isLoading: boolean) {
             patchState(store, { loading: isLoading });
         },
-        showSnackbar(message: string) {
+        showSnackbar(message: string, duration = 3000) {
             _snackBar.open(message, 'Schließen', { 
-                duration: 3000 });
+                duration: duration });
         }
     }))
 );

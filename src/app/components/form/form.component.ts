@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { Todo } from "../../models/todo.model"
-import { TagService } from '../../services/tag.service';
+import { TagStore } from '../../store/tag.store';
 
 @Component({
   selector: 'app-form',
@@ -28,12 +28,12 @@ export class TodoFormComponent {
   private fb = inject(FormBuilder);
   dialogRef = inject<MatDialogRef<TodoFormComponent>>(MatDialogRef);
   data = inject<Todo | null>(MAT_DIALOG_DATA);
-  private tagService = inject(TagService);
+  private tagStore = inject(TagStore);
 
   todoForm: FormGroup;
   priorityOptions = ['Niedrig', 'Mittel', 'Hoch'];
   formName: string;
-  public alleTags = this.tagService.alleTags;
+  public alleTags = this.tagStore.tags;
 
   constructor() {
     this.formName = this.data ? 'Bearbeite Todo' : 'Neues Todo';

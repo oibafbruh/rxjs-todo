@@ -19,7 +19,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { Tag } from '../../models/tag.model';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { TodoStore } from '../../store/todo.store';
-import { TagService } from '../../services/tag.service';
+import { TagStore } from '../../store/tag.store';
 
 @Component({
   selector: 'app-sidenav',
@@ -49,13 +49,13 @@ export class SideComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
 
   private readonly todoService = inject(TodoStore);
-  private readonly tagService = inject(TagService);
+  private readonly tagStore = inject(TagStore);
   filterForm: FormGroup;
   tagForm: FormGroup;
   private formSub!: Subscription;
 
   priorityOptions = ['Alle', 'Niedrig', 'Mittel', 'Hoch'];
-  public alleTags = this.tagService.alleTags;
+  public alleTags = this.tagStore.tags;
 
   constructor() {
     this.filterForm = this.fb.group({
@@ -77,7 +77,7 @@ export class SideComponent implements OnInit, OnDestroy {
         return null;
       }
 
-      const currentTags = this.tagService.alleTags();
+      const currentTags = this.tagStore.tags();
       const tagNameNew = value.trim().toLowerCase();
 
       const tagExists = currentTags.some((tag: Tag) => tag.name.toLowerCase() === tagNameNew);
@@ -113,11 +113,11 @@ export class SideComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.tagService.addTag(this.tagForm.value);
+    this.tagStore.addTag(this.tagForm.value);
     this.tagForm.reset({name: '', color: '#009826ff'});
   }
 
   onDeleteTag(tagName: string): void {
-    this.tagService.deleteTag(tagName);
+    this.tagStore.deleteTag(tagName);
   }
 }

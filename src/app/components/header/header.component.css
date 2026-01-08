@@ -25,6 +25,12 @@ mat-toolbar mat-icon {
     "opsz" 24;
 }
 
+img {
+  height: 1.5rem;
+  width: 1.5rem;
+  display: inline;
+}
+
 /* :host ::ng-deep .mat-mdc-icon-button .mat-mdc-button-persistent-icon {
   display: flex;
   align-items: center;

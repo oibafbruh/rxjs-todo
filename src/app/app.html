@@ -1,5 +1,6 @@
 <div class="app-wrapper">
-  @if (isLoading()) {
+  
+    @if (isLoading()) {
     <div class="loading-overlay">
       <mat-spinner></mat-spinner>
     </div>
@@ -24,12 +25,23 @@
 
       <app-toolbar></app-toolbar>
 
-      <main class="content">
-        <app-table></app-table>
-        <app-done></app-done>
+     <main class="content">
+        @defer (on timer(2s); prefetch on idle) {
+          <app-table></app-table>
+          <app-done></app-done>
+        } @placeholder {
+          <div class="skeleton-table">
+            <div class="shimmer-wrapper skeleton-header"></div>
+            
+            @for (i of [1,2,3,4,5]; track i) {
+              <div class="shimmer-wrapper skeleton-row"></div>
+            }
+          </div>
+        }
       </main>
       <app-footer></app-footer>
     </mat-sidenav-content>
 
   </mat-sidenav-container>
 </div>
+  

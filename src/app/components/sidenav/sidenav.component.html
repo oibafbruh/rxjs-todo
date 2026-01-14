@@ -35,7 +35,7 @@
           [style.color]="'white'">
             {{ tag.name }}
             <button matChipRemove (click)="onDeleteTag(tag.name)">
-              <mat-icon>cancel</mat-icon>
+              <mat-icon matToolTip="Tag löschen">delete</mat-icon>
             </button>
           </mat-chip-row>
         }

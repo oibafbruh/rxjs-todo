@@ -10,7 +10,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /*#C7B37F*/
 
-/* The Shimmer Effect */
 .shimmer-wrapper {
   background: #f6f7f8;
   background-image: linear-gradient(

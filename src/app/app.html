@@ -26,13 +26,13 @@
       <app-toolbar></app-toolbar>
 
      <main class="content">
-        @defer (on timer(2s); prefetch on idle) {
+        @defer (on interaction; prefetch on hover) { <!-- on idle -->
           <app-table></app-table>
           <app-done></app-done>
         } @placeholder {
           <div class="skeleton-table">
             <div class="shimmer-wrapper skeleton-header"></div>
-            
+
             @for (i of [1,2,3,4,5]; track i) {
               <div class="shimmer-wrapper skeleton-row"></div>
             }

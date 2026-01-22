@@ -50,7 +50,7 @@ export const TodoStore = signalStore(
   })), 
 
   withMethods(({ _todoDataService, _appStore, ...store }) => {
-    const _handleError = (message: string) => {
+    const _handleError = (message: string) => { 
       patchState(store, { error: message });
       console.error(message);
       _appStore.showSnackbar(message);

@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, inject, effect, OnInit } from '@angular/core'; // Added OnInit
+import { Component, AfterViewInit, ViewChild, inject, effect, OnInit, signal } from '@angular/core'; // Added OnInit
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,6 +14,15 @@ import { Todo } from "../../models/todo.model";
 import { Tag } from '../../models/tag.model';
 import { TodoStore } from '../../store/todo.store';
 import { TagStore } from '../../store/tag.store';
+import { PageEvent } from '@angular/material/paginator'
+import { createAngularTable,
+         FlexRenderDirective,
+         getCoreRowModel,
+         getSortedRowModel,
+         ColumnDef,
+         SortingState,
+         getPaginationRowModel
+} from '@tanstack/angular-table'
 
 @Component({
   selector: 'app-table',
@@ -27,7 +36,8 @@ import { TagStore } from '../../store/tag.store';
     MatPaginatorModule,
     MatTooltipModule,
     MatSortModule,
-    MatChipsModule
+    MatChipsModule,
+    FlexRenderDirective
   ],
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css'],
@@ -35,40 +45,69 @@ import { TagStore } from '../../store/tag.store';
     { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }
   ]
 })
-export class TodoTableComponent implements OnInit, AfterViewInit {
-  
-  private readonly dialog = inject(MatDialog);
+
+export class TodoTableComponent {
 
   public readonly todoStore = inject(TodoStore); 
   public readonly tagStore = inject(TagStore);
+  private readonly dialog = inject(MatDialog);
 
-  public dataSource = new MatTableDataSource<Todo>();
-  public displayedColumns: string[] = ['id', 'name', 'status', 'priority', 'tags', 'actions'];
-  public tagColorMap = new Map<string, string>();
+  sorting = signal<SortingState>([]);
+  pagination = signal({pageIndex: 0, pageSize: 25});
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+    readonly columns: ColumnDef<Todo>[] = [
+    { accessorKey: 'id', header: 'ID'},
+    { accessorKey: 'name', header: 'Name'},
+    { accessorKey: 'status', header: 'Status'},
+    { accessorKey: 'priority', header: 'Priorität'},
+    {
+      id: 'tags',
+      header: 'Tags',
+      cell: (info) => info.getValue(),
+    },
+    {
+      id: 'actions',
+      header: 'Aktionen',
+      cell: (info) => info.row.original,
+    }
+  ];
 
-  constructor() {
-    effect(() => {
-      const todos = this.todoStore.filteredTodos(); 
-      const tags = this.tagStore.tags();
-
-      this.dataSource.data = todos;
-      this.tagColorMap = new Map(tags.map((tag: Tag) => [tag.name, tag.color]));
-    });
-  }
+  readonly table = createAngularTable(() => ({
+    data: this.todoStore.filteredTodos(),
+    columns: this.columns,
+    state: {
+      sorting: this.sorting(),
+      pagination: this.pagination(),
+    },
+    onSortingChange: (updaterOrValue) => 
+      typeof updaterOrValue === 'function' 
+        ? this.sorting.update(updaterOrValue) 
+        : this.sorting.set(updaterOrValue),
+    onPaginationChange: (updaterOrValue) => 
+      typeof updaterOrValue === 'function' 
+        ? this.pagination.update(updaterOrValue) 
+        : this.pagination.set(updaterOrValue),
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+  }))
 
   ngOnInit(): void {
     this.todoStore.loadTodos();
     if (this.tagStore.tags().length === 0) {
-        this.tagStore.loadTags();
+      this.tagStore.loadTags();
     }
   }
 
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+  onPageChange(e: PageEvent) {
+    this.pagination.set({
+      pageIndex: e.pageIndex,
+      pageSize: e.pageSize
+    });
+  }
+
+  getTagColor(tagName: string) {
+    return this.tagStore.tags().find(t => t.name === tagName)?.color || '#ccc';
   }
 
   onDelete(id: number): void {

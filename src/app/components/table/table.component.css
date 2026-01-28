@@ -1,25 +1,63 @@
-mat-icon {
+/* table.component.css */
 
-    font-family: "Material Symbols Outlined";
-    font-size: 24px;
-
-    font-variation-settings: 
-        "wght" 200,
-        "GRAD" 0,
-        "FILL" 1,
-        "opsz" 24;
+.table-container {
+  /* Keeps the shadow and rounded corners */
+  display: block;
+  width: 100%;
+  overflow-x: auto; /* Adds scrollbar on small screens */
 }
 
-.actions-cell {
-  align-items: center;
-  justify-content: center;
+.todo-table {
+  width: 100%; /* Forces table to fill the container */
+  border-collapse: collapse; /* Removes double borders */
 }
 
-.mat-mdc-icon-button {
-  padding: calc(5.5px);
+/* Mimic Material Design Row Styling */
+th, td {
+  padding: 16px; 
+  text-align: left;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-mat-paginator {
-  margin-top: 16px;
+th {
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 14px;
 }
 
+td {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+/* Optional: Make the Actions column tight so it doesn't stretch */
+td:last-child, th:last-child {
+  width: 1px;
+  white-space: nowrap;
+  padding-right: 24px;
+}
+
+/* table.component.css */
+
+th.sortable {
+  cursor: pointer;          /* Shows hand cursor on hover */
+  user-select: none;        /* Prevents text selection when clicking fast */
+  transition: background 0.2s;
+}
+
+th.sortable:hover {
+  background-color: rgba(0, 0, 0, 0.04); /* Light gray hover effect */
+}
+
+.header-content {
+  display: flex;            /* Aligns text and icon horizontally */
+  align-items: center;      /* Vertically centers them */
+  gap: 8px;                 /* Space between text and arrow */
+}
+
+.sort-icon {
+  font-size: 16px;          /* Make the arrow subtle (Material standard is small) */
+  height: 16px;
+  width: 16px;
+  opacity: 0.7;
+}

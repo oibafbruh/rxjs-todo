@@ -51,3 +51,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   margin-bottom: 8px;
   background-color: #e0e0e0;
 }
+
+mat-icon {
+
+    font-family: "Material Symbols Outlined";
+    font-size: 24px;
+
+    font-variation-settings: 
+        "wght" 400,
+        "GRAD" 0,
+        "FILL" 0,
+        "opsz" 24;
+}

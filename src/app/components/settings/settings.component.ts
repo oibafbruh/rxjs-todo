@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -14,7 +14,6 @@ import { TodoStore } from '../../store/todo.store';
 @Component({
   selector: 'app-form',
     imports: [
-    CommonModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
@@ -22,7 +21,7 @@ import { TodoStore } from '../../store/todo.store';
     MatDialogModule,
     MatIconModule,
     MatTooltipModule
-  ],
+],
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css'],
 })

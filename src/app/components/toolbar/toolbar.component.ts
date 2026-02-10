@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { CommonModule } from '@angular/common';
+
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TodoFormComponent } from '../form/form.component';
 import { TodoStore } from '../../store/todo.store';
@@ -17,7 +17,6 @@ import { MatTooltipModule } from "@angular/material/tooltip";
   selector: 'app-toolbar',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     MatToolbarModule,
     MatFormFieldModule,
@@ -26,7 +25,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     MatButtonModule,
     MatDialogModule,
     MatTooltipModule
-  ],
+],
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.css']
 })

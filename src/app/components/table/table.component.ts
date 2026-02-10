@@ -1,5 +1,5 @@
 import { Component, inject, signal, OnInit } from '@angular/core'; // Added OnInit
-import { CommonModule } from '@angular/common';
+
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -27,7 +27,6 @@ import { createAngularTable,
   selector: 'app-table',
   standalone: true,
   imports: [
-    CommonModule,
     MatTableModule,
     MatIconModule,
     MatButtonModule,
@@ -37,7 +36,7 @@ import { createAngularTable,
     MatSortModule,
     MatChipsModule,
     FlexRenderDirective
-  ],
+],
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css'],
   providers: [

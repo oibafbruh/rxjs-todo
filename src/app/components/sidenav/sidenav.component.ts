@@ -9,7 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { CommonModule } from '@angular/common';
+
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -25,7 +25,6 @@ import { TagStore } from '../../store/tag.store';
   selector: 'app-sidenav',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     MatToolbarModule,
     MatFormFieldModule,

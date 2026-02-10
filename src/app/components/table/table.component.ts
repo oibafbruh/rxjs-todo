@@ -1,17 +1,16 @@
-import { Component, AfterViewInit, ViewChild, inject, effect, OnInit, signal } from '@angular/core'; // Added OnInit
+import { Component, inject, signal, OnInit } from '@angular/core'; // Added OnInit
 import { CommonModule } from '@angular/common';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatSortModule } from '@angular/material/sort';
 import { TodoFormComponent } from '../form/form.component';
 import { CustomPaginatorIntl } from '../../helper/custom-paginator-intl';
 import { Todo } from "../../models/todo.model";
-import { Tag } from '../../models/tag.model';
 import { TodoStore } from '../../store/todo.store';
 import { TagStore } from '../../store/tag.store';
 import { PageEvent } from '@angular/material/paginator'
@@ -46,7 +45,7 @@ import { createAngularTable,
   ]
 })
 
-export class TodoTableComponent {
+export class TodoTableComponent implements OnInit {
 
   public readonly todoStore = inject(TodoStore); 
   public readonly tagStore = inject(TagStore);

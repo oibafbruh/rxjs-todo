@@ -45,6 +45,10 @@ th.sortable {
   transition: background 0.2s;
 }
 
+.mat-mdc-icon-button {
+  padding: 5.5px;
+}
+
 th.sortable:hover {
   background-color: rgba(0, 0, 0, 0.04); /* Light gray hover effect */
 }
